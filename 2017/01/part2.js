@@ -10,8 +10,5 @@ fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
             total += parseInt(data[index], 10);
         }
     }
-    /*if(data[0] === data[data.length - 1]) {
-        total += parseInt(data[0], 10);
-    }*/
     console.log(total);
 });
