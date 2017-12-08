@@ -45,6 +45,7 @@ lib.getInput(year, day).then((data) => {
         if(node.children) {
             for(child of node.children) {
                 newChildren.push(items[child]);
+                items[child].parent = node;
                 populateChildren(items[child]);
             }
         }
@@ -66,8 +67,49 @@ lib.getInput(year, day).then((data) => {
         return total;
     }
 
-    populateTotalWeight(rootNode);
+    populateTotalWeight(rootNode);    
 
-    //manually look through tree via debugger and find the unbalanced one. Will come up with an actual code solution later.
-    console.log(rootNode);
+    let unbalancedNode = undefined;
+    let candidateNode = rootNode;
+
+    while(!unbalancedNode) {
+        let unbalancedChild = undefined;
+        if(candidateNode.children[0].totalWeight === candidateNode.children[1].totalWeight) {
+            let targetWeight = candidateNode.children[0].totalWeight;
+            for(let child of candidateNode.children) {
+                if(child.totalWeight !== targetWeight) {
+                    unbalancedChild = child;
+                }
+            }
+        }
+        else {
+            if(candidateNode.children[0].totalWeight !== candidateNode.children[2].totalWeight) {
+                unbalancedChild = candidateNode.children[0];
+            }
+            else if(candidateNode.children[1].totalWeight !== candidateNode.children[2].totalWeight) {
+                unbalancedChild = candidateNode.children[1];
+            }
+        }
+
+        if(unbalancedChild) {
+            candidateNode = unbalancedChild;
+        }
+        else {
+            unbalancedNode = candidateNode;
+        }
+    }
+
+    let parentNode = unbalancedNode.parent;
+
+    let targetWeight = 0;
+    if(parentNode.children[0] === unbalancedNode) {
+        targetWeight = parentNode.children[1].totalWeight;
+    }
+    else {
+        targetWeight = parentNode.children[0].totalWeight;
+    }
+
+    let weightDelta = unbalancedNode.totalWeight - targetWeight;
+
+    console.log(unbalancedNode.value - weightDelta);
 });
