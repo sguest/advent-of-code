@@ -4,7 +4,6 @@ let year = 2017;
 let day = 09;
 
 lib.getInput(year, day).then((data) => {
-    let currentGroupScore = 0;
     let isGarbage = false;
     let isCancelled = false;
     let score = 0;
@@ -28,13 +27,6 @@ lib.getInput(year, day).then((data) => {
         }
         else if(char === '<') {
             isGarbage = true;
-        }
-        else if(char === '{') {
-            currentGroupScore++;
-        }
-        else if(char === '}')
-        {
-            currentGroupScore--;
         }
     }
 
