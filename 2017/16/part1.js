@@ -5,7 +5,7 @@ let day = 16;
 
 lib.getInput(year, day).then((data) => {
     let moves = data.split(',');
-    let programs = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+    let programs = 'abcdefghijklmnop'.split('');
     for(let move of moves) {
         let instruction = move[0];
         move = move.substring(1);
@@ -38,5 +38,5 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    console.log(programs);
+    console.log(programs.join(''));
 });
