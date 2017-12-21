@@ -42,10 +42,6 @@ lib.getInput(year, day).then((data) => {
                 index2++;
             }
         }
-
-        if(index % 1000 === 0){
-            console.log(index);
-        }
     }
 
     console.log(particles.length);
