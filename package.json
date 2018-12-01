@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sguest/advent-of-code/issues"
   },
-  "homepage": "https://github.com/sguest/advent-of-code#readme"
+  "homepage": "https://github.com/sguest/advent-of-code#readme",
+  "dependencies": {
+    "md5": "^2.2.1"
+  }
 }
