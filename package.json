@@ -1,0 +1,20 @@
+{
+  "name": "aoc-sguest",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "init.js",
+  "scripts": {
+    "init": "node init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sguest/advent-of-code.git"
+  },
+  "author": "Spencer Guest",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sguest/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/sguest/advent-of-code#readme"
+}
