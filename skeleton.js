@@ -4,7 +4,8 @@ let year = {{year}};
 let day = {{day}};
 
 lib.getInput(year, day).then((data) => {
-    for(let line of data.split('\n')) {
+    let lines = data.split('\n');
+    for(let line of lines) {
         
     }
 }).catch((err) => {
