@@ -14,12 +14,24 @@ lib.getInput(year, day).then((data) => {
         overlaps[i] = [];
     }
 
+    let claims = [];
+
     for(let line of lines) {
         let parsed = parser.exec(line);
+        let claimId = +parsed[1]
         let left = +parsed[2];
         let top = +parsed[3];
         let width = +parsed[4];
         let height = +parsed[5];
+        
+        claims.push({claimId, left, top, width, height});
+    }
+
+    for(let claim of claims) {
+        let left = claim.left;
+        let top = claim.top;
+        let width = claim.width;
+        let height = claim.height;
 
         for(let x = left; x < left + width; x++) {
             for(let y = top; y < top + height; y++) {
@@ -35,13 +47,12 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    main: for(let line of lines) {
-        let parsed = parser.exec(line);
-        let claimId = +parsed[1]
-        let left = +parsed[2];
-        let top = +parsed[3];
-        let width = +parsed[4];
-        let height = +parsed[5];
+    main: for(let claim of claims) {
+        let claimId = claim.claimId;
+        let left = claim.left;
+        let top = claim.top;
+        let width = claim.width;
+        let height = claim.height;
 
         for(let x = left; x < left + width; x++) {
             for(let y = top; y < top + height; y++) {
