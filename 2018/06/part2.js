@@ -15,17 +15,10 @@ lib.getInput(year, day).then((data) => {
         areas.push({x: +parts[0], y: +parts[1]});
     }
 
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = 0;
-    let maxY = 0;
-
-    for(let area of areas) {
-        minX = Math.min(minX, area.x);
-        minY = Math.min(minY, area.y);
-        maxX = Math.max(maxX, area.x);
-        maxY = Math.max(maxY, area.y);
-    }
+    let minX = Math.min.apply(null, areas.map(a => a.x));
+    let minY = Math.min.apply(null, areas.map(a => a.y));
+    let maxX = Math.max.apply(null, areas.map(a => a.x));
+    let maxY = Math.max.apply(null, areas.map(a => a.y));
 
     let middleX = Math.floor((minX + maxX) / 2);
     let middleY = Math.floor((minY + maxY) / 2);
@@ -39,10 +32,7 @@ lib.getInput(year, day).then((data) => {
         if(!visited[current.x + ',' + current.y]) {
             visited[current.x + ',' + current.y] = true;
 
-            let totalDistance = 0;
-            for(let area of areas) {
-                totalDistance += getDistance(area, current);
-            }
+            let totalDistance = areas.map(a => getDistance(a, current)).reduce((a, b) => a + b);
 
             if(totalDistance < 10000) {
                 path.push({x:current.x - 1, y:current.y});
