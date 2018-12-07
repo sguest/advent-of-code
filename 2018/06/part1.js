@@ -24,16 +24,16 @@ lib.getInput(year, day).then((data) => {
         let rightBound = false;
 
         for(let area2 of areas) {
-            if(area2.x < area1.x && Math.abs(area1.y - area2.y) < Math.abs(area1.x - area2.x)) {
+            if(area2.x < area1.x && Math.abs(area1.y - area2.y) <= Math.abs(area1.x - area2.x)) {
                 leftBound = true;
             }
-            if(area2.x > area1.x && Math.abs(area1.y - area2.y) < Math.abs(area1.x - area2.x)) {
+            if(area2.x > area1.x && Math.abs(area1.y - area2.y) <= Math.abs(area1.x - area2.x)) {
                 rightBound = true;
             }
-            if(area2.y < area1.y && Math.abs(area1.y - area2.y) > Math.abs(area1.x - area2.x)) {
+            if(area2.y < area1.y && Math.abs(area1.y - area2.y) >= Math.abs(area1.x - area2.x)) {
                 topBound = true;
             }
-            if(area2.y > area1.y && Math.abs(area1.y - area2.y) > Math.abs(area1.x - area2.x)) {
+            if(area2.y > area1.y && Math.abs(area1.y - area2.y) >= Math.abs(area1.x - area2.x)) {
                 bottomBound = true;
             }
         }
