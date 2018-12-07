@@ -24,16 +24,16 @@ lib.getInput(year, day).then((data) => {
         let rightBound = false;
 
         for(let area2 of areas) {
-            if(area2.x < area1.x) {
+            if(area2.x < area1.x && Math.abs(area1.y - area2.y) < Math.abs(area1.x - area2.x)) {
                 leftBound = true;
             }
-            if(area2.x > area1.x) {
+            if(area2.x > area1.x && Math.abs(area1.y - area2.y) < Math.abs(area1.x - area2.x)) {
                 rightBound = true;
             }
-            if(area2.y < area1.y) {
+            if(area2.y < area1.y && Math.abs(area1.y - area2.y) > Math.abs(area1.x - area2.x)) {
                 topBound = true;
             }
-            if(area2.y > area1.y) {
+            if(area2.y > area1.y && Math.abs(area1.y - area2.y) > Math.abs(area1.x - area2.x)) {
                 bottomBound = true;
             }
         }
@@ -44,7 +44,7 @@ lib.getInput(year, day).then((data) => {
 
     let maxArea = 0;
 
-    outer: for(let candidate of candidates) {
+    for(let candidate of candidates) {
         let path = [{x: candidate.x, y: candidate.y}];
         let count = 0;
         let visited = {};
@@ -54,10 +54,6 @@ lib.getInput(year, day).then((data) => {
             if(!visited[current.x+','+current.y]) {
                 visited[current.x+','+current.y] = true;
                 let distance = getDistance(current, candidate);
-
-                if(distance >= 200) {
-                    continue outer;
-                }
 
                 for(let area of areas) {
 
