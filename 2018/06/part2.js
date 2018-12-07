@@ -27,15 +27,28 @@ lib.getInput(year, day).then((data) => {
         maxY = Math.max(maxY, area.y);
     }
 
+    let middleX = Math.floor((minX + maxX) / 2);
+    let middleY = Math.floor((minY + maxY) / 2);
+
+    let path = [{x: middleX, y: middleY}];
+    let visited = {};
     let count = 0;
-    for(let x = minX - 1; x < maxX + 1; x++) {
-        for(let y = minY - 1; y < maxY + 1; y++) {
+
+    while(path.length) {
+        let current = path.pop();
+        if(!visited[current.x + ',' + current.y]) {
+            visited[current.x + ',' + current.y] = true;
+
             let totalDistance = 0;
             for(let area of areas) {
-                totalDistance += getDistance(area, {x, y});
+                totalDistance += getDistance(area, current);
             }
 
             if(totalDistance < 10000) {
+                path.push({x:current.x - 1, y:current.y});
+                path.push({x:current.x + 1, y:current.y});
+                path.push({x:current.x, y:current.y - 1});
+                path.push({x:current.x, y:current.y + 1});
                 count++;
             }
         }
