@@ -4,8 +4,9 @@ let year = 2018;
 let day = 9;
 
 lib.getInput(year, day).then((data) => {
-    let numPlayers = 416;
-    let lastMarble = 71617 * 100;
+    let parsed = /(\d+) players; last marble is worth (\d+) points/.exec(data);
+    let numPlayers = +parsed[1];
+    let lastMarble = +parsed[2] * 100;
 
     let current = { value: 0};
     current.prev = current;
