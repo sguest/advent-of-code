@@ -43,6 +43,11 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
+    minX = Math.min.apply(null, points.map(p => p.x));
+    maxX = Math.max.apply(null, points.map(p => p.x));
+    minY = Math.min.apply(null, points.map(p => p.y));
+    maxY = Math.max.apply(null, points.map(p => p.y));
+
     let grid = [];
     for(let x = 0; x <= maxX - minX; x++) {
         grid.push([]);
@@ -53,9 +58,9 @@ lib.getInput(year, day).then((data) => {
         grid[point.x - minX][point.y - minY] = true;
     }
 
-    for(let y = 0; y < maxY - minY; y++) {
+    for(let y = 0; y <= maxY - minY; y++) {
         let line = '';
-        for(let x = 0; x < maxX - minX; x++) {
+        for(let x = 0; x <= maxX - minX; x++) {
             if(grid[x][y]) {
                 line += '#';
             }
