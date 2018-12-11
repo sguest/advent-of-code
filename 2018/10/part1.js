@@ -1,4 +1,6 @@
 let lib = require('../../lib');
+let fs = require('fs');
+let path = require('path');
 
 let year = 2018;
 let day = 10;
@@ -58,18 +60,55 @@ lib.getInput(year, day).then((data) => {
         grid[point.x - minX][point.y - minY] = true;
     }
 
-    for(let y = 0; y <= maxY - minY; y++) {
-        let line = '';
-        for(let x = 0; x <= maxX - minX; x++) {
-            if(grid[x][y]) {
-                line += '#';
-            }
-            else {
-                line += ' ';
+    let letterMaps = [];
+
+    for(let i = 0; i < maxX - minX; i+=8) {
+        let letterMap = [];
+
+        for(let y = 0; y <= maxY - minY; y++) {
+            letterMap.push([]);
+            for(let x = 0; x < 6; x++) {
+                letterMap[y].push(!!grid[x + i][y]);
             }
         }
-        console.log(line);
+
+        letterMaps.push(letterMap);
     }
+
+    let file = fs.readFileSync(path.resolve(__dirname, 'letters.txt'), 'utf-8');
+    let letterLines = file.trim().split('\n');
+
+    let letterData = {};
+    while(letterLines.length) {
+        let char = letterLines.shift();
+        let d = [];
+        for(let y = 0; y < 10; y++) {
+            let line = letterLines.shift();
+            d.push([].map.call(line, (c) => c === '#'));
+        }
+        letterData[char] = d;
+    }
+
+    let result = '';
+
+    letterLoop: for(let letter of letterMaps) {
+        charLoop: for(let char in letterData) {
+            for(let x = 0; x < letterData[char].length; x++) {
+                for(let y = 0; y < letterData[char][x].length; y++) {
+                    if(letter[x][y] !== letterData[char][x][y])  {
+                        continue charLoop;
+                    }
+                }
+            }
+            result += char;
+            continue letterLoop;
+        }
+
+        console.log('unrecognized letter data');
+        console.log(letter);
+    }
+
+    console.log(result);
 }).catch((err) => {
     console.log(err.stack);
 });
