@@ -3,12 +3,20 @@ let lib = require('../../lib');
 let year = 2018;
 let day = 11;
 
+function getCell(grid, x, y) {
+    if(!grid[x]) {
+        return 0;
+    }
+
+    return grid[x][y] || 0;
+}
+
 lib.getInput(year, day).then((data) => {
     let serial = +data;
-    let grid = [];
+    let sumGrid = [];
 
     for(let i = 0; i <= 300; i++) {
-        grid.push([]);
+        sumGrid.push([]);
     }
 
     for(let x = 1; x <= 300; x++) {
@@ -19,41 +27,32 @@ lib.getInput(year, day).then((data) => {
             power *= rackId;
             power = Math.floor(power % 1000 / 100);
             power -= 5;
-            grid[x][y] = power;
+            sumGrid[x][y] = power + getCell(sumGrid, x - 1, y) + getCell(sumGrid, x, y - 1) - getCell(sumGrid, x - 1, y - 1);
         }
     }
-
-    console.log(grid);
 
     let highestNum = 0;
     let highestX = 0;
     let highestY = 0;
     let highestSize = 0;
 
-    for(let x = 300; x > 0; x--) {
-        for(let y = 300; y > 0; y--) {
+    for(let x = 1; x < 300; x++) {
+        for(let y = 1; y < 300; y++) {
             for(let size = 1; size < (300 - x); size++) {
-                let power = 0;
+                let x2 = x + size - 1;
+                let y2 = y + size - 1;
 
-                for(let xx = x; xx < x + size; xx++) {
-                    for(let yy = y; yy < y + size; yy++) {
-                        power += grid[xx][yy];
-                    }
-                }
-    
+                let power = sumGrid[x - 1][y - 1] + sumGrid[x2][y2] - sumGrid[x - 1][y2] - sumGrid[x2][y - 1];
                 if(power > highestNum) {
                     highestNum = power;
                     highestX = x;
                     highestY = y;
                     highestSize = size;
-                    console.log(highestNum);
-                    console.log(highestX + ',' + highestY + ',' + size);
                 }    
             }
         }
     }
 
-    console.log(done);
     console.log(highestX + ',' + highestY + ',' + highestSize);
 }).catch((err) => {
     console.log(err.stack);

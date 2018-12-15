@@ -23,8 +23,6 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    console.log(grid);
-
     let highestNum = 0;
     let highestX = 0;
     let highestY = 0;
