@@ -51,8 +51,6 @@ lib.getInput(year, day).then((data) => {
         let afterArgs = argString.split(', ').map(x => +x);
         lines.shift();
 
-        let matchCount = 0;
-
         for(let opCode in ops) {
             let candidates = beforeArgs.slice(0);
             candidates[opArgs[3]] = ops[opCode](candidates, opArgs[1], opArgs[2]);
