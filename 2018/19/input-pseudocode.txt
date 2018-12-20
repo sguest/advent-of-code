@@ -1,0 +1,35 @@
+//initial state
+res = 1
+a = 0
+c = 0
+d = 0
+e = 0
+
+e += 2
+e = e * e
+e = e * 19
+e = e * 11
+c += 4
+c *= 22
+c += 7
+e += c
+c = 2
+c *= 28
+c += 29
+c *= 30
+c *= 14
+c *= 32
+e += c
+
+//above equates to
+e = 10551331
+
+res = 0
+for(let a = 1; a < e; a++) {
+    for(let d = 1; d < e; d++) {
+        c = a * d
+        if(c === e) {
+            res += a
+        }
+    }
+}
