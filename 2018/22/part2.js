@@ -4,9 +4,11 @@ let year = 2018;
 let day = 22;
 
 lib.getInput(year, day).then((data) => {
-    let depth = 11739;
-    let targetX = 11;
-    let targetY = 718;
+    let lines = data.split('\n');
+    let depth = +lines[0].split(': ')[1];
+    let coords = lines[1].split(': ')[1].split(',');
+    let targetX = +coords[0];
+    let targetY = +coords[1];
 
     let erosion = [];
 
