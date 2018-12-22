@@ -7,7 +7,7 @@ main: do {
         e = e & 16777215 -- 0xffffff
         e *= 65899 -- 0x1016b
         e = e & 16777215 -- 0xffffff
-        if(d <= 256) {
+        if(d < 256) {
             continue main
         }
         else {
