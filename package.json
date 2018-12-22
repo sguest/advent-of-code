@@ -5,7 +5,8 @@
   "private": true,
   "main": "init.js",
   "scripts": {
-    "init": "node init"
+    "init": "node init",
+    "test": "node test/main.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/sguest/advent-of-code#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "js-combinatorics": "^0.5.4",
     "md5": "^2.2.1"
   }
