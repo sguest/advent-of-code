@@ -37,7 +37,7 @@ lib.getInput(year, day).then((data) => {
                     let count = 0;
                     for(let bot of bots) {
                         let botDistance = Math.abs(x - bot.x) + Math.abs(y - bot.y) + Math.abs(z - bot.z)
-                        if(Math.floor((botDistance - bot.range) / searchDistance) <= 0) {
+                        if(botDistance - bot.range < searchDistance) {
                             count++;
                         }
                     }
