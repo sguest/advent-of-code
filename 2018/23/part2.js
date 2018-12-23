@@ -3,7 +3,7 @@ let lib = require('../../lib');
 let year = 2018;
 let day = 23;
 
-// shamelessly stolen from https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/ecerldd/
+// shamelessly stolen and adapted from https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/ecerldd/
 
 lib.getInput(year, day).then((data) => {
     let lines = data.split('\n');
@@ -14,58 +14,56 @@ lib.getInput(year, day).then((data) => {
         bots.push(newBot);
     }
 
-    let xs = bots.map(b => b.x)
-    xs.push(0);
-    let ys = bots.map(b => b.y);
-    ys.push(0);
-    let zs = bots.map(b => b.z);
-    zs.push(0);
+    let minX = Math.min(...bots.map(b => b.x), 0);
+    let maxX = Math.max(...bots.map(b => b.x), 0);
+    let minY = Math.min(...bots.map(b => b.y), 0);
+    let maxY = Math.max(...bots.map(b => b.y), 0);
+    let minZ = Math.min(...bots.map(b => b.z), 0);
+    let maxZ = Math.max(...bots.map(b => b.z), 0);
 
-    let dist = 1;
-    while(dist < Math.max(...xs) - Math.min(...xs)) {
-        dist *= 2;
+    let searchDistance = 1;
+    while(searchDistance < maxX - minX) {
+        searchDistance *= 2;
     }
 
     while(true) {
-        let targetCount = 0;
-        let best;
-        let bestVal;
+        let bestCount = 0;
+        let bestLocation;
+        let bestDistance = Infinity;
 
-        for(let x = Math.min(...xs); x <= Math.max(...xs) + 1; x += dist) {
-            for(let y = Math.min(...ys); y <= Math.max(...ys) + 1; y += dist) {
-                for(let z = Math.min(...zs); z <= Math.max(...zs) + 1; z += dist) {
+        for(let x = minX; x <= maxX + 1; x += searchDistance) {
+            for(let y = minY; y <= maxY + 1; y += searchDistance) {
+                for(let z = minZ; z <= maxZ + 1; z += searchDistance) {
                     let count = 0;
                     for(let bot of bots) {
-                        let calc = Math.abs(x - bot.x) + Math.abs(y - bot.y) + Math.abs(z - bot.z)
-                        if(Math.floor((calc - bot.range) / dist) <= 0) {
+                        let botDistance = Math.abs(x - bot.x) + Math.abs(y - bot.y) + Math.abs(z - bot.z)
+                        if(botDistance - bot.range <= searchDistance) {
                             count++;
                         }
                     }
 
-                    if(count > targetCount) {
-                        targetCount = count;
-                        bestVal = Math.abs(x) + Math.abs(y) + Math.abs(z);
-                        best = { x, y, z };
-                    }
-                    else if(count === targetCount) {
-                        if(!bestVal || Math.abs(x) + Math.abs(y) + Math.abs(z) < bestVal) {
-                            bestVal = Math.abs(x) + Math.abs(y) + Math.abs(z);
-                            best = { x, y, z };
-                        }
+                    let currentVal = Math.abs(x) + Math.abs(y) + Math.abs(z);
+                    if(count > bestCount || (count === bestCount && currentVal < bestDistance)) {
+                        bestCount = count;
+                        bestDistance = currentVal;
+                        bestLocation = { x, y, z };
                     }
                 }
             }
         }
 
-        if(dist === 1) {
-            console.log(bestVal);
+        if(searchDistance === 1) {
+            console.log(bestDistance);
             break;
         }
         else {
-            xs = [best.x - dist, best.x + dist];
-            ys = [best.y - dist, best.y + dist];
-            zs = [best.z - dist, best.z + dist];
-            dist = Math.floor(dist / 2);
+            minX = bestLocation.x - searchDistance;
+            maxX = bestLocation.x + searchDistance;
+            minY = bestLocation.y - searchDistance;
+            maxY = bestLocation.y + searchDistance;
+            minZ = bestLocation.z - searchDistance;
+            maxZ = bestLocation.z + searchDistance;
+            searchDistance /= 2;
         }
     }
 }).catch((err) => {
