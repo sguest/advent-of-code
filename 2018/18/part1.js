@@ -16,8 +16,6 @@ lib.getInput(year, day).then((data) => {
     }
 
     for(let minute = 0; minute < 10; minute++) {
-        console.log(minute);
-        console.log(grid);
         let newGrid = [];
         for(let x = 0; x < grid[0].length; x++) 
         {
