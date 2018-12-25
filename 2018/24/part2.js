@@ -67,14 +67,20 @@ lib.getInput(year, day).then((data) => {
         }
     }
     
-    let minBoost = 0;
-    let maxBoost = 10000;
+    let minBoost = 1;
+    let maxBoost = undefined;
     let skipCount = 0;
 
     let units;
 
-    while(minBoost < maxBoost) {
-        let currentBoost = Math.floor((maxBoost + minBoost) / 2) + skipCount;
+    while(!maxBoost || minBoost < maxBoost) {
+        let currentBoost;
+        if(maxBoost) {
+            currentBoost = Math.floor((maxBoost + minBoost) / 2) + skipCount;
+        }
+        else {
+            currentBoost = minBoost;
+        }
         units = [];
         for(let unit of rawUnits) {
             units.push({
@@ -179,7 +185,12 @@ lib.getInput(year, day).then((data) => {
             }
 
             if(!immuneFound) {
-                minBoost = currentBoost;
+                if(maxBoost) {
+                    minBoost = currentBoost;
+                }
+                else {
+                    minBoost = currentBoost * 2;
+                }
                 skipCount = 0;
                 break;
             }
@@ -189,6 +200,7 @@ lib.getInput(year, day).then((data) => {
                 }
                 else {
                     maxBoost = currentBoost;
+                    minBoost = Math.floor(currentBoost / 2);
                     skipCount = 0;
                 }
                 break;
