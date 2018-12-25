@@ -1,26 +1,28 @@
-let input = '3113322113';
+const lib = require('../../lib');
 
-for(let count = 0; count < 40; count++) {
-    let newVal = '';
+lib.getInput(2015, 10).then((input) => {
+    for(let count = 0; count < 40; count++) {
+        let newVal = '';
 
-    let current = '';
-    let currentCount = 0;
+        let current = '';
+        let currentCount = 0;
 
-    for(let char of input) {
-        if(char === current) {
-            currentCount++;
-        }
-        else {
-            if(currentCount > 0) {
-                newVal += currentCount + current;
+        for(let char of input) {
+            if(char === current) {
+                currentCount++;
             }
-            currentCount = 1;
-            current = char;
+            else {
+                if(currentCount > 0) {
+                    newVal += currentCount + current;
+                }
+                currentCount = 1;
+                current = char;
+            }
         }
+        newVal += currentCount + current;
+
+        input = newVal;
     }
-    newVal += currentCount + current;
 
-    input = newVal;
-}
-
-console.log(input.length);
+    console.log(input.length);
+});

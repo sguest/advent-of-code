@@ -1,13 +1,18 @@
-var md5 = require('md5');
+const lib = require('../../lib');
+const md5 = require('md5');
 
-var secret = 'bgvyzdsv';
-var index = 1;
+let day = 4;
+let year = 2015;
 
-while(true) {
-    var result = md5(secret + index);
-    if(/^000000/.test(result)) {
-        console.log(index);
-        break;
+lib.getInput(year, day).then((secret) => {
+    var index = 1;
+
+    while(true) {
+        var result = md5(secret + index);
+        if(/^000000/.test(result)) {
+            console.log(index);
+            break;
+        }
+        index++;
     }
-    index++;
-}
+});
