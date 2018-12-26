@@ -1,29 +1,33 @@
-let input = 3014387;
-let elves = [];
+const lib = require('../../lib');
 
-for(let index = 0; index < input; index++) {
-    elves.push(true);
-}
+lib.getInput(2016, 19).then((data) => {
+    let input = +data;
+    let elves = [];
 
-let remainingElves = input;
-let target = 0;
+    for(let index = 0; index < input; index++) {
+        elves.push(true);
+    }
 
-while(remainingElves > 1) {
-    target = (target + 1) % input;
-    
-    while(!elves[target]) {
+    let remainingElves = input;
+    let target = 0;
+
+    while(remainingElves > 1) {
         target = (target + 1) % input;
+        
+        while(!elves[target]) {
+            target = (target + 1) % input;
+        }
+        elves[target] = false;
+        remainingElves--;
+        while(!elves[target]) {
+            target = (target + 1) % input;
+        }
     }
-    elves[target] = false;
-    remainingElves--;
-    while(!elves[target]) {
-        target = (target + 1) % input;
-    }
-}
 
-for(let index = 0; index < elves.length; index++) {
-    if(elves[index]) {
-        console.log(index + 1);
-        break;
+    for(let index = 0; index < elves.length; index++) {
+        if(elves[index]) {
+            console.log(index + 1);
+            break;
+        }
     }
-}
+});

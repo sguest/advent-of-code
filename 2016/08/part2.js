@@ -45,16 +45,53 @@ fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
         }
     }
 
-    for(let y = 0; y < 6; y++) {
-        let message = '';
-        for(let x = 0; x < 50; x++) {
-            if(grid[x][y]) {
-                message += '#'
-            }
-            else {
-                message += ' ';
+    let letterFile = fs.readFileSync(__dirname + '\\letters.txt', 'utf-8');
+    let letterLines = letterFile.trim().split('\n');
+
+    let letterData = {};
+    while(letterLines.length) {
+        let char = letterLines.shift();
+        let d = [];
+        for(let y = 0; y < 6; y++) {
+            let line = letterLines.shift();
+            d.push([].map.call(line, (c) => c === '#'));
+        }
+        letterData[char] = d;
+    }
+
+    let letterMaps = [];
+
+    for(let letter = 0; letter < grid.length; letter += 5) {
+        let letterMap = [];
+
+        for(let y = 0; y < 6; y++) {
+            letterMap.push([]);
+            for(let x = 0; x < 4; x++) {
+                letterMap[y].push(!!grid[x + letter][y]);
             }
         }
-        console.log(message);
+
+        letterMaps.push(letterMap);
     }
+
+    let result = '';
+
+    letterLoop: for(let letter of letterMaps) {
+        charLoop: for(let char in letterData) {
+            for(let x = 0; x < letterData[char].length; x++) {
+                for(let y = 0; y < letterData[char][x].length; y++) {
+                    if(letter[x][y] !== letterData[char][x][y])  {
+                        continue charLoop;
+                    }
+                }
+            }
+            result += char;
+            continue letterLoop;
+        }
+
+        console.log('unrecognized letter data');
+        console.log(letter);
+    }
+
+    console.log(result);
 });

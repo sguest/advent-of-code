@@ -49,7 +49,7 @@ lib.getInput(year, day).then((data) => {
                 line += 'X'
             }
         }
-        console.log(line);
+        //console.log(line);
     }
 
 

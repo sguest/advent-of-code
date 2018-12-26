@@ -34,7 +34,10 @@ fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
                 }
                 shiftedParts.push(shiftedName);
             }
-            console.log(shiftedParts.join(' ') + ' - ' + sectorId);
+            if(shiftedParts.join(' ') === 'northpole object storage') {
+                console.log(sectorId);
+                break;
+            }
         }
     }
 });

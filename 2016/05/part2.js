@@ -1,22 +1,23 @@
-var md5 = require('md5');
+const lib = require('../../lib');
+const md5 = require('md5');
 
-var input = 'ojvtpuvg';
+lib.getInput(2016, 5).then((input) => {
+    var index = 0;
 
-var index = 0;
+    var password = [];
+    var foundCount = 0;
 
-var password = [];
-var foundCount = 0;
-
-while(foundCount < 8) {
-    var hash = md5(input + index);
-    if(hash.startsWith('00000')) {
-        var place = parseInt(hash[5], 10);
-        if(place <= 7 && !password[place]) {
-            password[place] = hash[6];
-            foundCount++;
+    while(foundCount < 8) {
+        var hash = md5(input + index);
+        if(hash.startsWith('00000')) {
+            var place = parseInt(hash[5], 10);
+            if(place <= 7 && !password[place]) {
+                password[place] = hash[6];
+                foundCount++;
+            }
         }
+        index++;
     }
-    index++;
-}
 
-console.log(password.join(''));
+    console.log(password.join(''));
+});
