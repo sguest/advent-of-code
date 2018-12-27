@@ -1,70 +1,74 @@
-let input = 368078;
+const lib = require('../../lib');
 
-let x = 0;
-let y = 0;
+lib.getInput(2017, 3).then((data) => {
+    let input = +data;
 
-let maxX = 0;
-let maxY = 0;
-let minX = 0;
-let minY = 0;
+    let x = 0;
+    let y = 0;
 
-let direction = 'R';
+    let maxX = 0;
+    let maxY = 0;
+    let minX = 0;
+    let minY = 0;
 
-let grid = [];
-grid[0] = [];
-grid[0][0] = 1;
+    let direction = 'R';
 
-function getValue(x, y) {
-    if(grid[x]) {
-        return grid[x][y] || 0;
-    }
+    let grid = [];
+    grid[0] = [];
+    grid[0][0] = 1;
 
-    return 0;
-}
-
-while(true) {
-    if(direction === 'R') {
-        x += 1;
-        if(x > maxX) {
-            maxX = x;
-            direction = 'U';
+    function getValue(x, y) {
+        if(grid[x]) {
+            return grid[x][y] || 0;
         }
-    }
-    else if(direction === 'L') {
-        x -= 1;
-        if(x < minX) {
-            minX = x;
-            direction = 'D';
-        }
-    }
-    else if(direction === 'U')
-    {
-        y -= 1;
-        if(y < minY) {
-            minY = y;
-            direction = 'L';
-        }
-    }
-    else if(direction === 'D') {
-        y += 1;
-        if(y > maxY) {
-            maxY = y;
-            direction = 'R';
-        }
+
+        return 0;
     }
 
-    var currentValue = 0;
-    for(let xN = x - 1; xN <= x + 1; xN++) {
-        for(let yN = y - 1; yN <= y + 1; yN++) {
-            currentValue += getValue(xN, yN);
+    while(true) {
+        if(direction === 'R') {
+            x += 1;
+            if(x > maxX) {
+                maxX = x;
+                direction = 'U';
+            }
         }
-    }
+        else if(direction === 'L') {
+            x -= 1;
+            if(x < minX) {
+                minX = x;
+                direction = 'D';
+            }
+        }
+        else if(direction === 'U')
+        {
+            y -= 1;
+            if(y < minY) {
+                minY = y;
+                direction = 'L';
+            }
+        }
+        else if(direction === 'D') {
+            y += 1;
+            if(y > maxY) {
+                maxY = y;
+                direction = 'R';
+            }
+        }
 
-    if(currentValue > input) {
-        console.log(currentValue);
-        break;
-    }
+        var currentValue = 0;
+        for(let xN = x - 1; xN <= x + 1; xN++) {
+            for(let yN = y - 1; yN <= y + 1; yN++) {
+                currentValue += getValue(xN, yN);
+            }
+        }
 
-    grid[x] = grid[x] || [];
-    grid[x][y] = currentValue;
-}
+        if(currentValue > input) {
+            console.log(currentValue);
+            break;
+        }
+
+        grid[x] = grid[x] || [];
+        grid[x][y] = currentValue;
+    }
+});

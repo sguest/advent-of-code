@@ -5,7 +5,7 @@ let day = 18;
 
 
 lib.getInput(year, day).then((data) => {
-   function getVal(reg, program) {
+    function getVal(reg, program) {
         if(isNaN(reg)) {
             return program.registers[reg] || 0;            
         }
@@ -84,6 +84,6 @@ lib.getInput(year, day).then((data) => {
             }
             continue;
         }
-        console.log('Error unrec ' + line)
+        //console.log('Error unrec ' + line)
     }
 });
