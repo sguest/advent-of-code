@@ -9,5 +9,5 @@ lib.getInput(year, day).then((data) => {
         
     }
 }).catch((err) => {
-    console.log(err.stack);
+    console.log(err, err.stack);
 });
