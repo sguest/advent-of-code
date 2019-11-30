@@ -12,8 +12,14 @@ rl.question('Year ', (year) => {
         fs.readFile(path.resolve(__dirname, 'skeleton.js'), 'utf-8', (err, skeleton) => {
             skeleton = skeleton.replace('{{year}}', year).replace('{{day}}', day)
 
+            let yearPath = path.resolve(__dirname, year);
+
+            if(!fs.existsSync(yearPath)) {
+                fs.mkdirSync(yearPath);
+            }
+
             day = (day.length < 2 ? '0' : '') + day
-            let outputPath = path.resolve(__dirname, year, day);
+            let outputPath = path.resolve(yearPath, day);
             if(!fs.existsSync(outputPath)) {
                 fs.mkdirSync(outputPath);
             }
