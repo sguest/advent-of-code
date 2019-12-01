@@ -76,7 +76,7 @@ lib.getInput(year, day).then((data) => {
     }
 
     let file = fs.readFileSync(path.resolve(__dirname, 'letters.txt'), 'utf-8');
-    let letterLines = file.trim().split('\n');
+    let letterLines = file.trim().replace(/\r\n/g, '\n').split('\n');
 
     let letterData = {};
     while(letterLines.length) {
