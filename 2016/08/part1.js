@@ -1,7 +1,6 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
-    data = data.trim();
+lib.getInput(2016, 8).then((data) => {
     let rectParse = /^rect (\d+)x(\d+)$/;
     let rotateParse = /^rotate (row|column) (?:x|y)=(\d+) by (\d+)$/;
     let grid = [];

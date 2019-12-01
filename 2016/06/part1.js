@@ -1,6 +1,6 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2016, 6).then((data) => {
     data = data.trim();
     let counts = [{},{},{},{},{},{},{},{}];
     for(let line of data.split('\n')) {

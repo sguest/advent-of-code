@@ -1,6 +1,7 @@
 let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2016, 8).then((data) => {
     data = data.trim();
     let rectParse = /^rect (\d+)x(\d+)$/;
     let rotateParse = /^rotate (row|column) (?:x|y)=(\d+) by (\d+)$/;
@@ -46,7 +47,7 @@ fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
     }
 
     let letterFile = fs.readFileSync(__dirname + '\\letters.txt', 'utf-8');
-    let letterLines = letterFile.trim().split('\n');
+    let letterLines = letterFile.trim().replace(/\r\n/g, '\n').split('\n');
 
     let letterData = {};
     while(letterLines.length) {

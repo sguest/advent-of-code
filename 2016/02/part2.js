@@ -1,6 +1,6 @@
-var fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2016, 2).then((data) => {
     var current = {x: 0, y: 2};
     var keypad = [[,,1],[,2,3,4],[5,6,7,8,9],[,'A','B','C'],[,,'D']]
     var delta = {

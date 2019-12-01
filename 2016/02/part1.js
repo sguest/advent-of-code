@@ -1,6 +1,6 @@
-var fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2016, 2).then((data) => {
     var current = {x: 1, y: 1};
     var delta = {
         'L': {x: -1, y: 0},
