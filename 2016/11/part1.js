@@ -8,7 +8,6 @@ function moveCommon(floors, currentFloor, itemName, nextFloor, itemType) {
     let itemIndex = newFloors[currentFloor][itemType].indexOf(itemName);
     let movedItem = newFloors[currentFloor][itemType].splice(itemIndex, 1)[0];
     newFloors[nextFloor][itemType].push(movedItem);
-    newFloors[nextFloor][itemType] = newFloors[nextFloor][itemType].sort();
     return newFloors;
 }
 
@@ -47,8 +46,23 @@ lib.getInput(2016, 11).then((data) => {
                     floor.generators.push(/a ([a-z]+) generator/.exec(component)[1]);
                 }
             }
-            floor.chips = floor.chips.sort();
-            floor.generators = floor.generators.sort();
+        }
+    }
+
+    let materialIndex = 0;
+
+    for(let floor of floors) {
+        for(let chipIndex = 0; chipIndex < floor.chips.length; chipIndex++) {
+            let chip = floor.chips[chipIndex];
+            for(let floor2 of floors) {
+                let generatorIndex = floor2.generators.indexOf(chip);
+                if(generatorIndex !== -1) {
+                    floor2.generators[generatorIndex] = materialIndex;
+                }
+            }
+
+            floor.chips[chipIndex] = materialIndex;
+            materialIndex++;
         }
     }
 
@@ -59,14 +73,26 @@ lib.getInput(2016, 11).then((data) => {
     main:
     while(true) {
         let attempt = queue.pop();
-        let stateString = JSON.stringify(attempt.state);
-        if(visited[stateString]) {
-            //already been here
-            continue main;
-        }
-        visited[stateString] = true;
-
         let floors = attempt.state.floors;
+        
+        let pairs = [];
+        
+        for(let generatorIndex = 0; generatorIndex < 4; generatorIndex++) {
+          for(let generator of floors[generatorIndex].generators) {
+            for(let chipIndex = 0; chipIndex < 4; chipIndex++) {
+              if(floors[chipIndex].chips.indexOf(generator) !== -1) {
+                pairs.push({generator: generatorIndex, chip: chipIndex});
+                break;
+              }
+            }
+          }
+        }
+        
+        var pattern = pairs.sort(function(a,b) { return (a.generator * 4 + a.chip) - (b.generator * 4 + b.chip); }).map(function(a) { return a .generator + '' + a.chip; }).join('') + attempt.state.currentFloor;
+        if(visited[pattern]) {
+          continue;
+        }      
+        visited[pattern] = true;
 
         if(floors[3].chips.length === 5 && floors[3].generators.length === 5) {
             //win
