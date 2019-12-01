@@ -1,6 +1,6 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2015, 8).then((data) => {
     data = data.trim();
     var codeChars = 0;
     var stringChars = 0;

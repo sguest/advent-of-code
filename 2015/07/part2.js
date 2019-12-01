@@ -1,6 +1,6 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
+lib.getInput(2015, 7).then((data) => {
     data = data.trim();
     let lines = [];
     for(let line of data.split('\n')) {
