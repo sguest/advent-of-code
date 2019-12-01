@@ -1,7 +1,6 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
-    data = data.trim();
+lib.getInput(2017, 2).then((data) => {
     let total = 0;
     for(let line of data.split('\n')) {
         let nums = line.split(/\s+/).map(x => parseInt(x, 10));
