@@ -6,7 +6,8 @@
   "main": "init.js",
   "scripts": {
     "init": "node init",
-    "test": "node test/main.js"
+    "test": "node test/main.js",
+    "set-auth": "node lib/setAuth.js"
   },
   "repository": {
     "type": "git",
