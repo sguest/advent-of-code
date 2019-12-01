@@ -10,7 +10,7 @@ lib.getInput(year, day).then((data) => {
         let parts = line.split(' ');
         let first = parts[1];
         let second = parts[7];
-        
+
         if(!steps[first]) {
             steps[first] = {prev: []};
         }
@@ -46,7 +46,7 @@ lib.getInput(year, day).then((data) => {
         }
 
         if(candidates.length) {
-            candidates = candidates.sort((a, b) => a.letter > b.letter);
+            candidates = candidates.sort((a, b) => a.letter > b.letter ? 1 : -1);
             result += candidates[0].letter;
             candidates[0].info.marked = true;
         }
