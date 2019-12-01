@@ -1,4 +1,4 @@
-let fs = require('fs');
+let lib = require('../../lib');
 
 //shamelessly stolen https://stackoverflow.com/questions/9960908/permutations-in-javascript/37580979#37580979
 function permute(permutation) {
@@ -6,7 +6,7 @@ function permute(permutation) {
         result = [permutation.slice()],
         c = new Array(length).fill(0),
         i = 1, k, p;
-  
+
     while (i < length) {
       if (c[i] < i) {
         k = i % 2 && c[i];
@@ -24,8 +24,7 @@ function permute(permutation) {
     return result;
 
 }
-fs.readFile(__dirname + '\\input.txt', 'utf-8', (err, data) => {
-    data = data.trim();
+lib.getInput(2015,9).then(data => {
     let parse = /^([a-zA-Z]+) to ([a-zA-Z]+) = (\d+)$/;
     let distances = {};
     let locations = [];
