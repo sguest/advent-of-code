@@ -3,7 +3,6 @@ let lib = require('../../lib');
 let year = 2017;
 let day = 24;
 
-// Sloooooow (almost 5 minutes on my computer) but it gets there
 lib.getInput(year, day).then((data) => {
     let components = [];
     for(let line of data.split('\n')) {
@@ -13,11 +12,12 @@ lib.getInput(year, day).then((data) => {
 
     let state = {components, strength: 0, end: 0};
 
-    let queue = [state];
+    let queue = new lib.linkedList();
+    queue.push(state);
 
     let strongest = 0;
 
-    while(queue.length) {
+    while(queue.any()) {
         let current = queue.shift();
 
         for(let index = 0; index < current.components.length; index++) {
