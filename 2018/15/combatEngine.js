@@ -1,3 +1,14 @@
+function getAttackTargets(combatant, enemies) {
+    let targets = [];
+    for(let comb of enemies) {
+        if((comb.x === combatant.x && comb.y === combatant.y - 1) || (comb.x === combatant.x && comb.y === combatant.y + 1) || (comb.x === combatant.x - 1 && comb.y === combatant.y) || (comb.x === combatant.x + 1 && comb.y === combatant.y)) {
+            targets.push(comb);
+        }
+    }
+
+    return targets;
+}
+
 module.exports = function(grid, combatants, elfAttack, exitOnElfDeath) {
     let turnCount = 0;
 
@@ -12,13 +23,7 @@ module.exports = function(grid, combatants, elfAttack, exitOnElfDeath) {
                 return turnCount;
             }
 
-            let attackTargets = [];
-
-            for(let comb2 of enemies) {
-                if((comb2.x === combatant.x && comb2.y === combatant.y - 1) || (comb2.x === combatant.x && comb2.y === combatant.y + 1) || (comb2.x === combatant.x - 1 && comb2.y === combatant.y) || (comb2.x === combatant.x + 1 && comb2.y === combatant.y)) {
-                    attackTargets.push(comb2);
-                }
-            }
+            let attackTargets = getAttackTargets(combatant, enemies);
 
             if(!attackTargets.length) {
                 let moveTargets = [];
@@ -32,91 +37,68 @@ module.exports = function(grid, combatants, elfAttack, exitOnElfDeath) {
 
                 let starts = [];
 
-                starts.push({location: {x: combatant.x - 1, y: combatant.y}});
-                starts.push({location: {x: combatant.x + 1, y: combatant.y}});
-                starts.push({location: {x: combatant.x, y: combatant.y - 1}});
-                starts.push({location: {x: combatant.x, y: combatant.y + 1}});
+                starts.push({x: combatant.x, y: combatant.y - 1});
+                starts.push({x: combatant.x - 1, y: combatant.y});
+                starts.push({x: combatant.x + 1, y: combatant.y});
+                starts.push({x: combatant.x, y: combatant.y + 1});
 
+                let queue = [];
                 for(let start of starts) {
-                    let path = [];
-                    let visited = {};
+                    queue.push({start: start, position: start, visited: {}, steps: 1});
+                }
 
-                    path.push({x: start.location.x, y: start.location.y, steps: 1});
+                let foundSteps = Infinity;
+                let foundTarget;
+                let foundStart;
 
-                    pathLoop: while(path.length) {
-                        let current = path.pop();
-                        let id = current.x + ',' + current.y;
+                pathLoop: while(queue.length) {
+                    let current = queue.shift();
+                    if(current.steps > foundSteps) {
+                        break;
+                    }
+                    let position = current.position;
+                    let id = position.x + ',' + position.y;
+                    let visited = current.visited;
+                    if(visited[id]) {
+                        continue;
+                    }
 
-                        if(grid[current.x][current.y]) {
+                    visited[id] = true;
+
+                    if(grid[position.x][position.y]) {
+                        continue;
+                    }
+
+                    for(let comb2 of combatants) {
+                        if(comb2 !== combatant && comb2.x === position.x && comb2.y === position.y) {
                             continue pathLoop;
                         }
-
-                        for(let comb2 of combatants) {
-                            if(comb2 !== combatant && comb2.x === current.x && comb2.y === current.y) {
-                                continue pathLoop;
-                            }
-                        }
-
-                        if(!visited[id] || visited[id].steps > current.steps) {
-                            visited[id] = {x: current.x, y: current.y, steps: current.steps};
-
-                            path.push({x: current.x - 1, y: current.y, steps: current.steps + 1});
-                            path.push({x: current.x + 1, y: current.y, steps: current.steps + 1});
-                            path.push({x: current.x, y: current.y - 1, steps: current.steps + 1});
-                            path.push({x: current.x, y: current.y + 1, steps: current.steps + 1});
-                        }
                     }
 
-                    let minDistance = Infinity;
-                    let candidates = [];
-
-                    for(let target of moveTargets) {
-                        let id = target.x + ',' + target.y;
-                        if(visited[id]) {
-                            if(visited[id].steps < minDistance) {
-                                candidates = [visited[id]];
-                                minDistance = visited[id].steps;
-                            }
-                            else if(visited[id].steps === minDistance) {
-                                candidates.push(visited[id]);
+                    for(let moveTarget of moveTargets) {
+                        if(moveTarget.x === position.x && moveTarget.y === position.y) {
+                            if(!foundTarget || moveTarget.y < foundTarget.y || (moveTarget.y === foundTarget.y && moveTarget.x < foundTarget.x)) {
+                                foundSteps = current.steps;
+                                foundTarget = moveTarget;
+                                foundStart = current.start;
                             }
                         }
                     }
 
-                    if(candidates.length) {
-                        candidates = candidates.sort((a, b) => (a.y * 1000 + a.x) - (b.y * 1000 + b.x));
-                        start.target = candidates[0];
-                    }
+                    queue.push({start: current.start, visited: visited, position: {x: position.x - 1, y: position.y}, steps: current.steps + 1});
+                    queue.push({start: current.start, visited: visited, position: {x: position.x + 1, y: position.y}, steps: current.steps + 1});
+                    queue.push({start: current.start, visited: visited, position: {x: position.x, y: position.y - 1}, steps: current.steps + 1});
+                    queue.push({start: current.start, visited: visited, position: {x: position.x, y: position.y + 1}, steps: current.steps + 1});
                 }
 
-                let minDistance = Infinity;
-                let startCandidates = [];
-
-                for(let start of starts) {
-                    if(start.target) {
-                        if(start.target.steps < minDistance) {
-                            startCandidates = [start];
-                            minDistance = start.target.steps;
-                        }
-                        else if(start.target.steps === minDistance) {
-                            startCandidates.push(start);
-                        }
-                    }
-                }
-
-                if(startCandidates.length) {
-                    startCandidates = startCandidates.sort((a, b) => (a.location.y * 1000 + a.location.x) - (b.location.y * 1000 + b.location.x));
-                    combatant.x = startCandidates[0].location.x;
-                    combatant.y = startCandidates[0].location.y;
+                if(foundStart) {
+                    combatant.x = foundStart.x;
+                    combatant.y = foundStart.y;
                 }
             }
 
-            attackTargets = [];
-
-            for(let comb2 of enemies) {
-                if((comb2.x === combatant.x && comb2.y === combatant.y - 1) || (comb2.x === combatant.x && comb2.y === combatant.y + 1) || (comb2.x === combatant.x - 1 && comb2.y === combatant.y) || (comb2.x === combatant.x + 1 && comb2.y === combatant.y)) {
-                    attackTargets.push(comb2);
-                }
+            if(!attackTargets.length) {
+                attackTargets = getAttackTargets(combatant, enemies);
             }
 
             if(attackTargets.length) {
