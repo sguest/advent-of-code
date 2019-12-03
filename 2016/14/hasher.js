@@ -2,7 +2,7 @@ let md5 = require('md5');
 
 module.exports = function(input, hashCount) {
     let index = 0;
-    let candidates = [];
+    let candidates = {};
     let cutoffIndex = 0;
     let validKeys = [];
 
@@ -20,32 +20,27 @@ module.exports = function(input, hashCount) {
         let regex = /([0-9a-f])\1\1\1\1/g;
         let parsed = regex.exec(hash);
         while(parsed) {
-            let arrIndex = 0;
             let digit = parsed[1];
 
-            while(arrIndex < candidates.length) {
-                if(candidates[arrIndex].digit === digit)
-                {
-                    let match = candidates.splice(arrIndex, 1)[0];
-                    validKeys.push(match.index);
+            for(let candidate of candidates[digit]) {
+                if(candidate >= index - 1000) {
+                    validKeys.push(candidate);
                     if(validKeys.length === 64) {
                         cutoffIndex = index + 1000;
                     }
                 }
-                else {
-                    arrIndex++;
-                }
             }
+
+            candidates[digit] = [];
 
             parsed = regex.exec(hash);
         }
 
         parsed = /([0-9a-f])\1\1/.exec(hash);
         if(parsed) {
-            candidates.push({
-                index: index,
-                digit: parsed[1]
-            });
+            let digit = parsed[1];
+            candidates[digit] = candidates[digit] || [];
+            candidates[digit].push(index)
         }
 
         index++;
