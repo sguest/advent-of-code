@@ -5,7 +5,8 @@ lib.getInput(2015, 22).then((data) => {
     let inputHp = +lines[0].split(': ')[1];
     let inputDamage = +lines[1].split(': ')[1];
 
-    let queue = [{bossHp: inputHp, playerHp: 50, mana: 500, spentMana: 0, poisonCount: 0, shieldCount: 0, rechargeCount: 0}];
+    let queue = new lib.linkedList();
+    queue.push({bossHp: inputHp, playerHp: 50, mana: 500, spentMana: 0, poisonCount: 0, shieldCount: 0, rechargeCount: 0});
 
     let minMana = Infinity;
 
