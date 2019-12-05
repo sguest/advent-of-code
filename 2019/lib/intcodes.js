@@ -2,7 +2,10 @@ function run(codes, input) {
     let pointer = 0;
     let outputs = [];
 
-    function execStandard(numArgs, modes, callback) {
+    function execStandard(numArgs, modes, outputs, callback) {
+        for(let output of outputs) {
+            modes[output] = 1;
+        }
         let args = [];
         for(let i = 0; i < numArgs; i++) {
             if(modes[i]) {
@@ -22,49 +25,34 @@ function run(codes, input) {
     }
 
     let funcs = {
-        1: (modes) => {
-            modes[2] = 1;
-            execStandard(3, modes, (first, second, target) => {
-                codes[target] = first + second;
-            });
-        },
-        2: (modes) => {
-            modes[2] = 1;
-            execStandard(3, modes, (first, second, target) => {
-                codes[target] = first * second;
-            });
-        },
-        3: (modes) => {
-            modes[0] = 1;
-            execStandard(1, modes, (arg) => {
-                codes[arg] = input;
-            });
-        },
-        4: (modes) => execStandard(1, modes, (arg) => {
+        1: modes => execStandard(3, modes, [2], (first, second, target) => {
+            codes[target] = first + second;
+        }),
+        2: modes => execStandard(3, modes, [2], (first, second, target) => {
+            codes[target] = first * second;
+        }),
+        3: modes => execStandard(1, modes, [0], (arg) => {
+            codes[arg] = input;
+        }),
+        4: modes => execStandard(1, modes, [], (arg) => {
             outputs.push(arg);
         }),
-        5: (modes) => execStandard(2, modes, (first, second) => {
+        5: modes => execStandard(2, modes, [], (first, second) => {
             if(first) {
                 return second;
             }
         }),
-        6: (modes) => execStandard(2, modes, (first, second) => {
+        6: modes => execStandard(2, modes, [], (first, second) => {
             if(!first) {
                 return second;
             }
         }),
-        7: (modes) => {
-            modes[2] = 1;
-            execStandard(3, modes, (first, second, third) => {
-                codes[third] = (first < second) ? 1 : 0;
-            });
-        },
-        8: (modes) => {
-            modes[2] = 1;
-            execStandard(3, modes, (first, second, third) => {
-                codes[third] = (first === second) ? 1 : 0;
-            });
-        },
+        7: modes => execStandard(3, modes, [2], (first, second, third) => {
+            codes[third] = (first < second) ? 1 : 0;
+        }),
+        8: modes => execStandard(3, modes, [2], (first, second, third) => {
+            codes[third] = (first === second) ? 1 : 0;
+        }),
         99: () => {
             return 1;
         },
