@@ -15,9 +15,11 @@ lib.getInput(year, day).then((data) => {
         let accelerationParts = parts[2].substring(3).split(',').map(x => parseInt(x, 10));
         particle.acceleration = {x: accelerationParts[0], y: accelerationParts[1], z: accelerationParts[2]};
         particles.push(particle);
-    }      
-    
-    for(let index = 0; index < 100000; index++) {
+    }
+
+    let lastCollision = 0;
+
+    while(lastCollision < 100) {
         let newPositions = {};
 
         for(let particle of particles) {
@@ -30,18 +32,20 @@ lib.getInput(year, day).then((data) => {
             let hash = particle.position.x + ',' + particle.position.y + ',' + particle.position.z;
             newPositions[hash] = (newPositions[hash] || 0) + 1;
         }
-        let index2 = 0;
-        while(index2 < particles.length)
+        let index = 0;
+        while(index < particles.length)
         {
-            let particle = particles[index2];
+            let particle = particles[index];
             let hash = particle.position.x + ',' + particle.position.y + ',' + particle.position.z;
             if(newPositions[hash] > 1) {
-                particles.splice(index2, 1);
+                particles.splice(index, 1);
+                lastCollision = 0;
             }
             else {
-                index2++;
+                index++;
             }
         }
+        lastCollision ++;
     }
 
     console.log(particles.length);
