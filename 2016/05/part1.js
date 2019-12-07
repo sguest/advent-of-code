@@ -1,6 +1,9 @@
 const lib = require('../../lib');
-const md5 = require('md5');
+let crypto = require('crypto');
 
+function md5(data) {
+    return crypto.createHash('md5').update(data).digest('hex');
+}
 lib.getInput(2016, 5).then((input) => {
     var index = 0;
 
