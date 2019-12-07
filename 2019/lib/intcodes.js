@@ -1,6 +1,9 @@
-function run(codes, input) {
+function compile(codes) {
     let pointer = 0;
-    let outputs = [];
+    let inputAddress = null;
+    let returnSignal = null;
+    let returnValue;
+    let inputValues = [];
 
     function execStandard(numArgs, modes, outputs, callback) {
         for(let output of outputs) {
@@ -32,10 +35,17 @@ function run(codes, input) {
             codes[target] = first * second;
         }),
         3: modes => execStandard(1, modes, [0], (arg) => {
-            codes[arg] = input;
+            if(inputValues.length) {
+                codes[arg] = inputValues.shift();
+            }
+            else {
+                inputAddress = arg;
+                returnSignal = 'input';
+            }
         }),
         4: modes => execStandard(1, modes, [], (arg) => {
-            outputs.push(arg);
+            returnValue =  arg;
+            returnSignal = 'output';
         }),
         5: modes => execStandard(2, modes, [], (first, second) => {
             if(first) {
@@ -54,29 +64,43 @@ function run(codes, input) {
             codes[third] = (first === second) ? 1 : 0;
         }),
         99: () => {
-            return 1;
+            returnSignal = 'end'
         },
     }
 
-    while(true) {
-        let op = codes[pointer];
-        let opCode = op % 100;
-        op = Math.floor(op / 100);
-        let modes = [];
+    return {
+        run: (inputs) => {
+            if(inputs) {
+                inputValues = inputs;
+            }
+            if(inputAddress && !inputValues.length) {
+                throw 'Failed to resume execution, waiting for input but no inputs provided';
+            }
+            if(inputAddress) {
+                codes[inputAddress] = inputValues.shift();
+                inputAddress = null;
+            }
+            returnSignal = null;
+            returnValue = undefined;
+            while(!returnSignal) {
+                let op = codes[pointer];
+                let opCode = op % 100;
+                op = Math.floor(op / 100);
+                let modes = [];
+        
+                while(op > 0) {
+                    modes.push(op % 10);
+                    op = Math.floor(op / 10);
+                }
+                if(!funcs[opCode]) {
+                    throw `Unrecognized opCode ${opCode}`;
+                }
+                funcs[opCode](modes);
+            }
 
-        while(op > 0) {
-            modes.push(op % 10);
-            op = Math.floor(op / 10);
+            return { signal: returnSignal, value: returnValue };
         }
-        if(!funcs[opCode]) {
-            throw `Unrecognized opCode ${opCode}`;
-        }
-        let ret = funcs[opCode](modes);
-
-        if(ret) {
-            return outputs;
-        }
-    }
+    };
 }
 
 function parse(input) {
@@ -84,6 +108,6 @@ function parse(input) {
 }
 
 module.exports = {
-    run,
+    compile,
     parse,
 }

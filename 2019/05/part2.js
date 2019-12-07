@@ -7,12 +7,14 @@ let day = 5;
 lib.getInput(year, day).then((data) => {
     let codes = intCodes.parse(data);
 
-    let results = intCodes.run(codes, 5);
-    for(let item of results) {
-        if(item) {
-            console.log(item);
-        }
+    let program = intCodes.compile(codes);
+    let output = program.run([5]);
+
+    while(!output.value) {
+        output = program.run();
     }
+
+    console.log(output.value);
 }).catch((err) => {
     console.log(err, err.stack);
 });

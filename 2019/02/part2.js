@@ -14,7 +14,8 @@ lib.getInput(year, day).then((data) => {
             codes[1] = noun;
             codes[2] = verb;
 
-            intCodes.run(codes);
+            let program = intCodes.compile(codes);
+            program.run();
 
             if(codes[0] === 19690720) {
                 console.log(100 * noun + verb);

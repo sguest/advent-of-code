@@ -9,7 +9,8 @@ lib.getInput(year, day).then((data) => {
     codes[1] = 12;
     codes[2] = 2;
 
-    intCodes.run(codes);
+    let program = intCodes.compile(codes);
+    program.run();
 
     console.log(codes[0]);
 }).catch((err) => {
