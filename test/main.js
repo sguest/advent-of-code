@@ -12,9 +12,27 @@ async function runTests() {
     let minDay = 1;
     let maxDay = 25;
     let timeout;
+    let filterApplied = false;
 
     for(let index = 0; index < args.length; index+= 2) {
+        if(args[index] === '-?') {
+            console.log('Possible parameters:');
+            console.log('-y');
+            console.log('\tFilter by year');
+            console.log('\t-y 2018 runs 2018 only');
+            console.log('\t-y 2015-2017 runs 2015 to 2017 inclusive');
+            console.log('-d');
+            console.log('\tFilter by day');
+            console.log('\t-d 20 runs day 20 only');
+            console.log('\t-d 10-15 runs days 10 to 15 inclusive');
+            console.log('-t');
+            console.log('\tTimeout');
+            console.log('\t-t 20 stops all tests after 20 seconds');
+            return;
+        }
+
         if(args[index] === '-y') {
+            filterApplied = true;
             let parts = args[index + 1].split('-');
             minYear = +parts[0];
             if(parts.length === 2) {
@@ -25,6 +43,7 @@ async function runTests() {
             }
         }
         else if(args[index] === '-d') {
+            filterApplied = true;
             let parts = args[index + 1].split('-');
             minDay = +parts[0];
             if(parts.length === 2) {
@@ -37,6 +56,10 @@ async function runTests() {
         else if(args[index] === '-t') {
             timeout = +args[index + 1];
         }
+    }
+
+    if(!filterApplied) {
+        console.log(chalk.yellow('Executing all tests. Run with -? argument for more options.'));
     }
 
     for(let year = minYear; year <= maxYear; year++) {
