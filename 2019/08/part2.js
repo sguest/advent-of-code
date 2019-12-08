@@ -1,3 +1,5 @@
+let fs = require('fs');
+let path = require('path');
 let lib = require('../../lib');
 
 let year = 2019;
@@ -26,22 +28,42 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    console.log(index);
+    let file = fs.readFileSync(path.resolve(__dirname, 'letters.txt'), 'utf-8');
+    let letterLines = file.trim().replace(/\r\n/g, '\n').split('\n');
 
-    for(let y = 0; y < height; y++) {
-        let output = '';
-
-        for(let x = 0; x < width; x++) {
-            if(imageData[x][y] === 0)  {
-                output += ' ';
-            }
-            else {
-                output += 'X';
-            }
+    let letterData = {};
+    while(letterLines.length) {
+        let char = letterLines.shift();
+        let d = [];
+        for(let y = 0; y < 6; y++) {
+            let line = letterLines.shift();
+            d.push([].map.call(line, (c) => c === '#' ? 1 : 0));
         }
-
-        console.log(output);
+        letterData[char] = d;
     }
+
+    let numLetters = width / 5;
+    let output = '';
+
+    for(let letterIndex = 0; letterIndex < numLetters; letterIndex++) {
+        letterLoop: for(let letter in letterData) {
+            let currentData = letterData[letter];
+            for(let y = 0; y < height; y++) {
+                for(let x = 0; x < 5; x++) {
+                    let dataX = x + letterIndex * 5;
+
+                    if(imageData[dataX][y] !== currentData[y][x]) {
+                        continue letterLoop;
+                    }
+                }
+            }
+
+            output += letter;
+            break;
+        }
+    }
+
+    console.log(output);
 }).catch((err) => {
     console.log(err, err.stack);
 });
