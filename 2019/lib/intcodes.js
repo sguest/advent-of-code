@@ -4,22 +4,34 @@ function compile(codes) {
     let returnSignal = null;
     let returnValue;
     let inputValues = [];
+    let relativeBase = 0;
 
     function execStandard(numArgs, modes, outputs, callback) {
-        for(let output of outputs) {
-            modes[output] = 1;
-        }
         let args = [];
         for(let i = 0; i < numArgs; i++) {
-            if(modes[i]) {
-                args.push(codes[pointer + i + 1]);
+            let rawValue = codes[pointer + i + 1] || 0;
+            if(outputs.indexOf(i) === -1) {
+                if(modes[i] === 1) {
+                    args.push(rawValue);
+                }
+                else if(modes[i] === 2) {
+                    args.push(codes[rawValue + relativeBase] || 0);
+                }
+                else {
+                    args.push(codes[rawValue] || 0);
+                }
             }
             else {
-                args.push(codes[codes[pointer + i + 1]]);
+                if(modes[i] === 2) {
+                    args.push(rawValue + relativeBase);
+                }
+                else {
+                    args.push(rawValue);
+                }
             }
         }
         let newPointer = callback.apply(null, args);
-        if(newPointer) {
+        if(newPointer !== undefined) {
             pointer = newPointer;
         }
         else {
@@ -62,6 +74,9 @@ function compile(codes) {
         }),
         8: modes => execStandard(3, modes, [2], (first, second, third) => {
             codes[third] = (first === second) ? 1 : 0;
+        }),
+        9: modes => execStandard(1, modes, [], (arg) => {
+            relativeBase += arg;
         }),
         99: () => {
             returnSignal = 'end'
