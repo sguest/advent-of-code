@@ -1,6 +1,5 @@
 function compile(codes) {
     let pointer = 0;
-    let inputAddress = null;
     let returnSignal = null;
     let returnValue;
     let inputValues = [];
@@ -9,25 +8,19 @@ function compile(codes) {
     function execStandard(numArgs, modes, outputs, callback) {
         let args = [];
         for(let i = 0; i < numArgs; i++) {
+            let mode = modes[i];
+            let isOutput = outputs.indexOf(i) !== -1;
+
             let rawValue = codes[pointer + i + 1] || 0;
-            if(outputs.indexOf(i) === -1) {
-                if(modes[i] === 1) {
-                    args.push(rawValue);
-                }
-                else if(modes[i] === 2) {
-                    args.push(codes[rawValue + relativeBase] || 0);
-                }
-                else {
-                    args.push(codes[rawValue] || 0);
-                }
+            if(mode === 2) {
+                rawValue += relativeBase;
+            }
+
+            if(isOutput || mode === 1) {
+                args.push(rawValue);
             }
             else {
-                if(modes[i] === 2) {
-                    args.push(rawValue + relativeBase);
-                }
-                else {
-                    args.push(rawValue);
-                }
+                args.push(codes[rawValue] || 0);
             }
         }
         let newPointer = callback.apply(null, args);
@@ -51,8 +44,8 @@ function compile(codes) {
                 codes[arg] = inputValues.shift();
             }
             else {
-                inputAddress = arg;
                 returnSignal = 'input';
+                return pointer;
             }
         }),
         4: modes => execStandard(1, modes, [], (arg) => {
@@ -86,14 +79,7 @@ function compile(codes) {
     return {
         run: (inputs) => {
             if(inputs) {
-                inputValues = inputs;
-            }
-            if(inputAddress && !inputValues.length) {
-                throw 'Failed to resume execution, waiting for input but no inputs provided';
-            }
-            if(inputAddress) {
-                codes[inputAddress] = inputValues.shift();
-                inputAddress = null;
+                inputValues.push(...inputs);
             }
             returnSignal = null;
             returnValue = undefined;
