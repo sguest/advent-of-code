@@ -1,10 +1,4 @@
-let crypto = require('crypto');
-
-function md5(data) {
-    return crypto.createHash('md5').update(data).digest('hex');
-}
-
-module.exports = function(input, hashCount) {
+module.exports = function(getHash) {
     let index = 0;
     let candidates = {};
     let cutoffIndex = 0;
@@ -15,11 +9,7 @@ module.exports = function(input, hashCount) {
             candidates.shift();
         }
 
-        let hash = input + index;
-
-        for(let i = 0; i < hashCount; i++) {
-            hash = md5(hash);
-        }
+        let hash = getHash();
 
         let regex = /([0-9a-f])\1\1\1\1/g;
         let parsed = regex.exec(hash);

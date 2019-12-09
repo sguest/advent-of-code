@@ -1,14 +1,16 @@
-let fs = require('fs');
-let path = require('path');
 let lib = require('../../lib');
 let runner = require('./runner');
+let crypto = require('crypto'); 
+
+function md5(data) { 
+    return crypto.createHash('md5').update(data).digest('hex'); 
+}
 
 lib.getInput(2016, 14).then((input) => {
     let index = 0;
-    let hashes = fs.readFileSync(path.resolve(__dirname, `hashes-${input}-1.txt`), 'utf-8').replace(/\r\n/g, '\n').split('\n');
 
     console.log(runner(() => {
-        let value = hashes[index];
+        let value = md5(input + index);
         index++;
         return value;
     }));
