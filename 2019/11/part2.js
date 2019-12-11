@@ -1,5 +1,6 @@
 let lib = require('../../lib');
 let intcodes = require ('../lib/intcodes');
+let parseLetters = require('../lib/parseLetters');
 
 let year = 2019;
 let day = 11;
@@ -68,13 +69,24 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    for(let y = minY; y <= maxY; y++) {
-        let output = '';
-        for(let x = minX; x <= maxX; x++) {
-            output += tiles[x][y] ? 'X' : ' ';
+    let outputData = [];
+    let started = false;
+
+    for(let x = minX; x <= maxX; x++) {
+        let row = [];
+        let found = false;
+        for(let y = minY; y <= maxY; y++) {
+            row[y] = (tiles[x][y] === 1);
+            found = found || row[x];
         }
-        console.log(output);
+
+        if(started || found) {
+            outputData.push(row);
+            started = true;
+        }
     }
+
+    console.log(parseLetters(outputData));
 }).catch((err) => {
     console.log(err, err.stack);
 });
