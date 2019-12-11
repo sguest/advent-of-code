@@ -14,16 +14,16 @@ lib.getInput(year, day).then((data) => {
     let checksum = data;
 
     while(checksum.length % 2 === 0) {
-        let newChecksum = '';
+        let newChecksum = [];
         for(let index = 0; index < checksum.length; index += 2) {
             if(checksum[index] === checksum[index + 1]) {
-                newChecksum += '1';
+                newChecksum.push('1');
             }
             else {
-                newChecksum += '0';
+                newChecksum.push('0');
             }
         }
-        checksum = newChecksum;
+        checksum = newChecksum.join('');
     }
 
     console.log(checksum);
