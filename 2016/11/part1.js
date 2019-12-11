@@ -68,7 +68,8 @@ lib.getInput(2016, 11).then((data) => {
 
     let state = {floors: floors, currentFloor: 0};
     let visited = {};
-    let queue = [{steps: 0, state: state}];
+    let queue = new lib.linkedList();
+    queue.push({steps: 0, state: state});
 
     main:
     while(true) {
