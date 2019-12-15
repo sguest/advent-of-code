@@ -1,9 +1,13 @@
-function compile(codes) {
+function compile(codes, status) {
     let pointer = 0;
+    let relativeBase = 0;
+    if(status) {
+        pointer = status.pointer;
+        relativeBase = status.relativeBase;
+    }
     let returnSignal = null;
     let returnValue;
     let inputValues = [];
-    let relativeBase = 0;
 
     function execStandard(numArgs, modes, outputs, callback) {
         let args = [];
@@ -100,6 +104,12 @@ function compile(codes) {
             }
 
             return { signal: returnSignal, value: returnValue };
+        },
+        clone: () => {
+            return compile(codes.slice(0), {
+                pointer,
+                relativeBase,
+            });
         }
     };
 }
