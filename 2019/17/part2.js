@@ -84,22 +84,40 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    //console.log(instructions);
+    let instructionString = instructions.join(',');
+
+    let functionNames = ['A', 'B', 'C'];
+    let functions = {};
+
+    //allowing the assumption that each function will be used at least 3x
+    //slightly less generalized but makes for much easier implementation
+    for(let functionName of functionNames) {
+        let programLength = 20;
+        let startPosition = 0;
+        while(/[ABC]/.test(instructionString[startPosition])) {
+            startPosition += 2;
+        }
+        while(programLength > 0) {
+            let candidate = instructionString.substring(startPosition, startPosition + programLength);
+            let firstIndex = instructionString.indexOf(candidate, programLength);
+            if(firstIndex !== -1 && !/[ABC]/.test(candidate)) {
+                let secondIndex = instructionString.indexOf(candidate, firstIndex + 1);
+                if(secondIndex !== -1) {
+                    candidate = candidate.replace(/,$/, '');
+                    functions[functionName] = candidate;
+                    instructionString = instructionString.replace(new RegExp(candidate, 'g'), functionName);
+                    break;
+                }
+            }
+            programLength--;
+        }
+    }
 
     codes = intcodes.parse(data);
     codes[0] = 2;
     program = intcodes.compile(codes);
 
-    //todo: figure out how to generate this instead of doing it by hand
-    let functions = {
-        A: ['L','10','L','12','R','6'],
-        B: ['R','10','L','4','L','4','L','12'],
-        C: ['L','10','R','10','R','6','L','4'],
-    }
-
-    let main = ['A','B','A','B','A','C','B','C','A','C']
-
-    let inputs = [main, functions.A, functions.B, functions.C, ['n']];
+    let inputs = [instructionString, functions.A, functions.B, functions.C, 'n'];
 
     output = program.run();
 
@@ -109,12 +127,10 @@ lib.getInput(year, day).then((data) => {
     }
 
     for(let input of inputs) {
-        let inputString = input.join(',');
-        let inputValues = [].map.call(inputString, x => x.charCodeAt(0))
+        let inputValues = [].map.call(input, x => x.charCodeAt(0))
         program.run(inputValues);
         output = program.run([10])
 
-        let result = '';
         while(output.signal === 'output') {
             if(output.value > 255) {
                 console.log(output.value);
