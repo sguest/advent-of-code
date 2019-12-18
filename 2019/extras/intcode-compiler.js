@@ -9,8 +9,15 @@ let inputFile = process.argv[2];
 let outputFile = process.argv[3];
 
 let data = fs.readFileSync(path.resolve(__dirname, inputFile), 'utf-8');
+let lines = data.replace(/\r\n/, '\n').split('\n');
+let cells = [];
 
-let cells = data.split(',');
+for(let line of lines) {
+    line = line.trim().replace(/,$/, '');
+    if(line && line[0] !== '#') {
+        cells.push(...line.split(','));
+    }
+}
 
 let pointers = {};
 let labels = {};
