@@ -1,1 +1,0 @@
-console.log(process.argv[2].split('').map(x => x.charCodeAt(0)).join(','));

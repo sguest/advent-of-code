@@ -22,30 +22,42 @@ for(let line of lines) {
 let pointers = {};
 let labels = {};
 
-for(let index = 0; index < cells.length; index++) {
-    let cell = cells[index];
-    if(cell[0] === '*') {
+let newCells = [];
+
+let index = 0;
+
+for(let cell of cells) {
+    if(cell[0] === '&') {
         let pointerName = cell.substring(1);
         pointers[pointerName] = pointers[pointerName] || [];
         pointers[pointerName].push(index);
+        newCells.push(cell);
+        index++;
+        continue;
     }
-    else if(cell[0] === '"') {
-        let labelName = /^\"([^"]*)/.exec(cell)[1];
+    
+    if(cell[0] === '*') {
+        let labelName = /^\*([^;]*)/.exec(cell)[1];
         labels[labelName] = index;
-        cell = cell.replace(/^\"[^"]*"/, '');
+        cell = cell.replace(/^\*[^;]*;?/, '');
+    }
 
+    if(cell[0] === '"') {
+        let str = /^\"([^"]*)"$/.exec(cell)[1];
+        newCells.push(...str.split('').map(x => x.charCodeAt(0).toString()));
+        index += str.length;
+    }
+    else {
+        index++;
         if(!cell) {
-            cells[index] = '0'
+            newCells.push('0');
         }
         else if(isNaN(cell)) {
             throw new Error(`Invalid cell value ${cells[index]}`);
         }
         else {
-            cells[index] = cell;
+            newCells.push(cell);
         }
-    }
-    else if(isNaN(cell)) {
-        throw new Error(`Invalid cell value ${cell}`);
     }
 }
 
@@ -54,8 +66,8 @@ for(let pointerName in pointers) {
         throw new Error(`Unrecognized pointer ${pointerName}`);
     }
     for(let pointer of pointers[pointerName]) {
-        cells[pointer] = labels[pointerName];
+        newCells[pointer] = labels[pointerName];
     }
 }
 
-fs.writeFileSync(path.resolve(__dirname, outputFile), cells.join(','));
+fs.writeFileSync(path.resolve(__dirname, outputFile), newCells.join(','));
