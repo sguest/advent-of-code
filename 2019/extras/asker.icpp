@@ -3,7 +3,7 @@
 1101,*end,0,*returnpointer
 1105,1,*stringwriter
 
-"stringwriter"108,-1,"stringpointer1"0,*boolpointer
+"stringwriter"108,-1,"stringpointer1",*boolpointer
     5,*boolpointer,*returnpointer
     4,"stringpointer2"0
     101,1,*stringpointer1,*stringpointer1
@@ -19,4 +19,4 @@
 "end"99
 
 #Misc pointers
-"returnpointer"0,"boolpointer"0
+"returnpointer","boolpointer"

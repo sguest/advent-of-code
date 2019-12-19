@@ -34,11 +34,15 @@ for(let index = 0; index < cells.length; index++) {
         labels[labelName] = index;
         cell = cell.replace(/^\"[^"]*"/, '');
 
-        if(isNaN(cell)) {
+        if(!cell) {
+            cells[index] = '0'
+        }
+        else if(isNaN(cell)) {
             throw new Error(`Invalid cell value ${cells[index]}`);
         }
-
-        cells[index] = cell;
+        else {
+            cells[index] = cell;
+        }
     }
     else if(isNaN(cell)) {
         throw new Error(`Invalid cell value ${cell}`);
