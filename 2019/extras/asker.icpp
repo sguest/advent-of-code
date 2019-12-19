@@ -2,11 +2,14 @@
 1101,&mainloop,0,&returnpointer
 1105,1,&stringwriter
 
-*mainloop;1101,&prompt,0,&writepointer
+*mainloop;104,10,1101,&prompt,0,&writepointer
         1101,&mainloop2,0,&returnpointer
         1105,1,&stringwriter
-    *mainloop2;1101,&mainloop,0,&returnpointer
+    *mainloop2;1101,&mainloop3,0,&returnpointer
         1105,1,&input
+    *mainloop3;1101,&inputbase,0,&writepointer
+        1101,&mainloop,0,&returnpointer
+        1105,1,&stringwriter
 
 *inputoffset
 *input;203,&inputbase
@@ -15,7 +18,8 @@
         101,-1,&inputoffset,&inputoffset
         109,1
         1105,1,&input
-    *inputend;9,&inputoffset
+    *inputend;21101,-1,0,&inputbase
+        9,&inputoffset
         1101,0,0,&inputoffset
         105,1,&returnpointer
 
