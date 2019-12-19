@@ -110,6 +110,9 @@ function compile(codes, status) {
                 pointer,
                 relativeBase,
             });
+        },
+        getState: () => {
+            return { codes, pointer, relativeBase };
         }
     };
 }

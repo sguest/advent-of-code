@@ -34,11 +34,21 @@ function run() {
             running = true;
         }
         else if(output.signal === 'input') {
-            rl.question('', answer => {
-                input = answer.split('').map(x => x.charCodeAt(0));
-                input.push(10);
-                run();
-            })
+            function getInput(answer) {
+                if(answer === '*debug') {
+                    let state = program.getState();
+                    console.log('pointer', state.pointer);
+                    console.log('relative base', state.relativeBase);
+                    console.log('codes', codes.join(','));
+                    rl.question('', getInput);
+                }
+                else {
+                    input = answer.split('').map(x => x.charCodeAt(0));
+                    input.push(10);
+                    run();
+                }
+            }
+            rl.question('', getInput)
         }
         else if(output.signal === 'end') {
             rl.close();
