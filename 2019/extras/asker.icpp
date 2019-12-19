@@ -1,6 +1,23 @@
 1101,&intro,0,&writepointer
-1101,&end,0,&returnpointer
+1101,&mainloop,0,&returnpointer
 1105,1,&stringwriter
+
+*mainloop;1101,&prompt,0,&writepointer
+        1101,&mainloop2,0,&returnpointer
+        1105,1,&stringwriter
+    *mainloop2;1101,&mainloop,0,&returnpointer
+        1105,1,&input
+
+*inputoffset
+*input;203,&inputbase
+        2108,10,&inputbase,&boolpointer
+        1005,&boolpointer,&inputend
+        101,-1,&inputoffset,&inputoffset
+        109,1
+        1105,1,&input
+    *inputend;9,&inputoffset
+        1101,0,0,&inputoffset
+        105,1,&returnpointer
 
 *writepointer
 *stringwriter;101,0,&writepointer,&writepointer1
@@ -13,10 +30,13 @@
         1105,1,&stringwriterloop
 
 #String data
-*intro;"Type exit to end",-1
+*intro;"Type exit to end",10,-1
+*prompt;"Enter input",10,-1
 *exit;"Exit",-1
 
 *end;99
 
 #Misc pointers
 *returnpointer,*boolpointer
+
+*inputbase
