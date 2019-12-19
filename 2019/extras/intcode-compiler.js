@@ -38,6 +38,9 @@ for(let cell of cells) {
     
     if(cell[0] === '*') {
         let labelName = /^\*([^;]*)/.exec(cell)[1];
+        if(labels[labelName]) {
+            throw new Error(`Duplicate label ${labelName}`);
+        }
         labels[labelName] = index;
         cell = cell.replace(/^\*[^;]*;?/, '');
     }
