@@ -1,14 +1,16 @@
-1101,&intro,0,&stringpointer1
-1101,&intro,0,&stringpointer2
+1101,&intro,0,&writepointer
 1101,&end,0,&returnpointer
 1105,1,&stringwriter
 
-*stringwriter;108,-1,*stringpointer1;,&boolpointer
-    5,&boolpointer,&returnpointer
-    4,*stringpointer2
-    101,1,&stringpointer1,&stringpointer1
-    101,1,&stringpointer2,&stringpointer2
-    1105,1,&stringwriter
+*writepointer
+*stringwriter;101,0,&writepointer,&writepointer1
+    101,0,&writepointer,&writepointer2
+    *stringwriterloop;108,-1,*writepointer1,&boolpointer
+        5,&boolpointer,&returnpointer
+        4,*writepointer2
+        101,1,&writepointer1,&writepointer1
+        101,1,&writepointer2,&writepointer2
+        1105,1,&stringwriterloop
 
 #String data
 *intro;"Type exit to end",-1
