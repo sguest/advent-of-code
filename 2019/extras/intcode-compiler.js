@@ -29,9 +29,14 @@ let index = 0;
 for(let cell of cells) {
     if(cell[0] === '&') {
         let pointerName = cell.substring(1);
-        pointers[pointerName] = pointers[pointerName] || [];
-        pointers[pointerName].push(index);
-        newCells.push(cell);
+        if(isNaN(pointerName)) {
+            pointers[pointerName] = pointers[pointerName] || [];
+            pointers[pointerName].push(index);
+            newCells.push(cell);
+        }
+        else {
+            newCells.push(+pointerName + index);
+        }
         index++;
         continue;
     }

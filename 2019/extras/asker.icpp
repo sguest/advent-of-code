@@ -3,18 +3,18 @@
 1105,1,&stringwriter
 
 *mainloop;104,10,1101,&prompt,0,&writepointer
-        1101,&mainloop2,0,&returnpointer
-        1105,1,&stringwriter
-    *mainloop2;1101,&mainloop3,0,&returnpointer
-        1105,1,&input
-    *mainloop3;1101,&mainloop4,0,&returnpointer
-        1101,&inputbase,0,&comparetarget1
-        1101,&exit,0,&comparetarget2
-        1105,1,&stringcomparer
-    *mainloop4;1005,&compareoutput,&end
-        1101,&inputbase,0,&writepointer
-        1101,&mainloop,0,&returnpointer
-        1105,1,&stringwriter
+    1101,&6,0,&returnpointer
+    1105,1,&stringwriter
+    1101,&6,0,&returnpointer
+    1105,1,&input
+    1101,&inputbase,0,&comparetarget1
+    1101,&exit,0,&comparetarget2
+    1101,&6,0,&returnpointer
+    1105,1,&stringcomparer
+    1005,&compareoutput,&end
+    1101,&inputbase,0,&writepointer
+    1101,&mainloop,0,&returnpointer
+    1105,1,&stringwriter
 
 *inputoffset
 *input;203,&inputbase
