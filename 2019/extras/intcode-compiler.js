@@ -46,9 +46,34 @@ for(let cell of cells) {
     }
 
     if(cell[0] === '"') {
-        let str = /^\"([^"]*)"$/.exec(cell)[1];
-        newCells.push(...str.split('').map(x => x.charCodeAt(0).toString()));
-        index += str.length;
+        if(cell.substr(-1, 1) !== '"') {
+            throw new Error(`Unterminated string ${cell}`);
+        }
+        let str = cell.slice(1, -1);
+        let strIndex = 0;
+        let chars = [];
+        let controlChars = 0;
+        while(strIndex < str.length) {
+            if(str[strIndex] === '\\') {
+                strIndex++;
+                controlChars++;
+                if(str[strIndex] === 'n') {
+                    chars.push('\n');
+                }
+                else if(str[strIndex] === '"') {
+                    chars.push('"');
+                }
+                else {
+                    chars.push(str[strIndex]);
+                }
+            }
+            else {
+                chars.push(str[strIndex]);
+            }
+            strIndex++;
+        }
+        newCells.push(chars.map(x => x.charCodeAt(0).toString()));
+        index += str.length - controlChars;
     }
     else {
         index++;

@@ -54,8 +54,8 @@
         105,1,&returnpointer
 
 #String data
-*intro;"Type [Exit] to end",10,-1
-*prompt;"Enter input",10,-1
+*intro;"Type \"Exit\" to end\n",-1
+*prompt;"Enter input\n",-1
 *exit;"Exit",-1
 
 *end;99
