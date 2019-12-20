@@ -7,7 +7,12 @@
         1105,1,&stringwriter
     *mainloop2;1101,&mainloop3,0,&returnpointer
         1105,1,&input
-    *mainloop3;1101,&inputbase,0,&writepointer
+    *mainloop3;1101,&mainloop4,0,&returnpointer
+        1101,&inputbase,0,&comparetarget1
+        1101,&exit,0,&comparetarget2
+        1105,1,&stringcomparer
+    *mainloop4;1005,&compareoutput,&end
+        1101,&inputbase,0,&writepointer
         1101,&mainloop,0,&returnpointer
         1105,1,&stringwriter
 
@@ -33,8 +38,23 @@
         101,1,&writepointer2,&writepointer2
         1105,1,&stringwriterloop
 
+*comparetarget1
+*compareoutput
+*stringcomparer;101,0,&comparetarget1,&comparetarget1-1
+        101,0,&comparetarget1,&comparetarget1-2
+    *stringcomparerloop;8,*comparetarget1-1,*comparetarget2,&compareoutput
+        6,&compareoutput,&returnpointer
+        108,-1,*comparetarget1-2,&boolpointer
+        1005,&boolpointer,&compareequal
+        101,1,&comparetarget1-1,&comparetarget1-1
+        101,1,&comparetarget1-2,&comparetarget1-2
+        101,1,&comparetarget2,&comparetarget2
+        1105,1,&stringcomparerloop
+    *compareequal;1101,1,0,&compareoutput
+        105,1,&returnpointer
+
 #String data
-*intro;"Type exit to end",10,-1
+*intro;"Type [Exit] to end",10,-1
 *prompt;"Enter input",10,-1
 *exit;"Exit",-1
 

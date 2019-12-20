@@ -98,7 +98,7 @@ function compile(codes, status) {
                     op = Math.floor(op / 10);
                 }
                 if(!funcs[opCode]) {
-                    throw `Unrecognized opCode ${opCode}`;
+                    throw `Unrecognized opCode ${opCode} at pointer ${pointer}`;
                 }
                 funcs[opCode](modes);
             }
