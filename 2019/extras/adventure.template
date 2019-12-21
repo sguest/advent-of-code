@@ -1,20 +1,4 @@
-1101,&intro,0,&writepointer
-1101,&mainloop,0,&returnpointer
-1105,1,&stringwriter
-
-*mainloop;104,10,1101,&prompt,0,&writepointer
-    1101,&6,0,&returnpointer
-    1105,1,&stringwriter
-    1101,&6,0,&returnpointer
-    1105,1,&input
-    1101,&inputbase,0,&comparetarget1
-    1101,&exit,0,&comparetarget2
-    1101,&6,0,&returnpointer
-    1105,1,&stringcomparer
-    1005,&compareoutput,&end
-    1101,&inputbase,0,&writepointer
-    1101,&mainloop,0,&returnpointer
-    1105,1,&stringwriter
+<stages>
 
 *inputoffset
 *input;203,&inputbase
@@ -54,13 +38,15 @@
         105,1,&returnpointer
 
 #String data
-*intro;"Type \"Exit\" to end\n",-1
-*prompt;"Enter input\n",-1
-*exit;"Exit",-1
+<strings>
+*str-unknown-option;"That's not a valid option\n",-1
 
-*end;99
+*stage-end;99
 
 #Misc pointers
 *returnpointer,*boolpointer
+
+#Variables
+<vars>
 
 *inputbase

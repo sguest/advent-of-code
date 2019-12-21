@@ -68,6 +68,9 @@ for(let cell of cells) {
                 else if(str[strIndex] === '"') {
                     chars.push('"');
                 }
+                else if(str[strIndex] === '+') {
+                    chars.push(',');
+                }
                 else {
                     chars.push(str[strIndex]);
                 }
@@ -81,7 +84,6 @@ for(let cell of cells) {
         index += str.length - controlChars;
     }
     else {
-        index++;
         if(!cell) {
             newCells.push('0');
         }
@@ -91,6 +93,7 @@ for(let cell of cells) {
         else {
             newCells.push(cell);
         }
+        index++;
     }
 }
 
