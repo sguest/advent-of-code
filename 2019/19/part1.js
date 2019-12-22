@@ -11,7 +11,7 @@ lib.getInput(year, day).then((data) => {
     for(let x = 0; x < 50; x++) {
         for(let y = 0; y < 50; y++) {
             let program = intcodes.compile(codes.slice(0));
-            let output = program.run([x, y]);
+            let output = program.run(x, y);
             if(output.value === 1) {
                 count++;
             }

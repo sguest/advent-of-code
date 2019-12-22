@@ -15,9 +15,7 @@ lib.getInput(year, day).then((data) => {
     let commands = ['NOT A J', 'NOT B T', 'OR T J', 'NOT C T', 'OR T J', 'AND D J', 'WALK'];
 
     for(let command of commands) {
-        let input = command.split('').map(x => x.charCodeAt(0));
-        input.push(10)
-        output = program.run(input);
+        output = program.run(command, 10);
     }
 
     while(output.signal === 'output') {

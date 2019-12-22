@@ -81,9 +81,17 @@ function compile(codes, status) {
     }
 
     return {
-        run: (inputs) => {
-            if(inputs) {
-                inputValues.push(...inputs);
+        run: (...inputs) => {
+            for(let input of inputs) {
+                if(typeof input === 'string') {
+                    inputValues.push(...[].map.call(input, (val, index) => input.charCodeAt(index)));
+                }
+                else if(typeof input === 'number') {
+                    inputValues.push(input);
+                }
+                else if(input !== undefined) {
+                    throw `Unsupported input value ${input}`;
+                }
             }
             returnSignal = null;
             returnValue = undefined;

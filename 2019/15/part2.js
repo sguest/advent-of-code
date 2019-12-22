@@ -40,7 +40,7 @@ lib.getInput(year, day).then((data) => {
                 let newY = current.y + delta[direction].y;
                 grid[newX] = grid[newX] || [];
                 let newProgram = currentProgram.clone();
-                let output = newProgram.run([direction]);
+                let output = newProgram.run(direction);
                 if(output.value === 2) {
                     oxygenX = newX;
                     oxygenY = newY;

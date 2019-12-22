@@ -32,7 +32,7 @@ lib.getInput(year, day).then((data) => {
                 let newX = current.x + delta[direction].x;
                 let newY = current.y + delta[direction].y;
                 let newProgram = currentProgram.clone();
-                let output = newProgram.run([direction]);
+                let output = newProgram.run(direction);
                 if(output.value === 2) {
                     console.log(steps);
                     found = true;

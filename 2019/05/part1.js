@@ -8,7 +8,7 @@ lib.getInput(year, day).then((data) => {
     let codes = intCodes.parse(data);
 
     let program = intCodes.compile(codes);
-    let output = program.run([1]);
+    let output = program.run(1);
     while(!output.value) {
         output = program.run();
     }

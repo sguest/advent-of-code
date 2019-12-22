@@ -127,9 +127,7 @@ lib.getInput(year, day).then((data) => {
     }
 
     for(let input of inputs) {
-        let inputValues = [].map.call(input, x => x.charCodeAt(0))
-        program.run(inputValues);
-        output = program.run([10])
+        output = program.run(input, 10);
 
         while(output.signal === 'output') {
             if(output.value > 255) {

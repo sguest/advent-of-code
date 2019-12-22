@@ -94,7 +94,7 @@ lib.getInput(year, day).then((data) => {
             nextMove = 0;
         }
         //draw(state.grid);
-        state = getState(program, state, [nextMove]);
+        state = getState(program, state, nextMove);
     }
 
     console.log(state.score);

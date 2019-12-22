@@ -15,7 +15,7 @@ lib.getInput(year, day).then((data) => {
         let found = false;
         while(!found && minX <= y * 5) {
             let program = intcodes.compile(codes.slice(0));
-            let output = program.run([minX, y]);
+            let output = program.run(minX, y);
             if(output.value === 1) {
                 found = true;
             }
@@ -34,7 +34,7 @@ lib.getInput(year, day).then((data) => {
             while(!found) {
                 maxX++;
                 let program = intcodes.compile(codes.slice(0));
-                let output = program.run([maxX, y]);
+                let output = program.run(maxX, y);
                 if(output.value === 0) {
                     found = true;
                     maxX--;

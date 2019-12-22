@@ -16,7 +16,7 @@ lib.getInput(year, day).then((data) => {
         let amplifiers = [];
         for(let amplifier = 0; amplifier < 5; amplifier++) {
             let program = intCodes.compile(codes.slice(0));
-            let output = program.run([currentList[amplifier]]);
+            let output = program.run(currentList[amplifier]);
             if(output.signal !== 'input') {
                 throw `Unexpected signal ${output.signal} in init`;
             }
@@ -33,7 +33,7 @@ lib.getInput(year, day).then((data) => {
         while(!amplifiers[currentAmplifier].ended) {
             let amplifier = amplifiers[currentAmplifier];
             let program = amplifier.program;
-            let output = program.run([currentValue]);
+            let output = program.run(currentValue);
             if(output.signal !== 'output') {
                 throw `Unexpected signal ${output.signal}, expected output`;
             }

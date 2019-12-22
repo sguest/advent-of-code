@@ -35,7 +35,7 @@ lib.getInput(year, day).then((data) => {
         painted[x] = painted[x] || [];
         let currentTile = tiles[x][y] || 0;
 
-        output = program.run([currentTile]);
+        output = program.run(currentTile);
 
         if(output.signal !== 'end') {
             tiles[x][y] = output.value;

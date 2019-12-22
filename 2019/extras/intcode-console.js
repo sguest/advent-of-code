@@ -20,14 +20,14 @@ let rl = readline.createInterface({
 });
 
 let running;
-let input = [];
+let input = undefined;
 
 function run() {
     running = true;
     while(running) {
         running = false;
         output = program.run(input);
-        input = [];
+        input = undefined;
 
         if(output.signal === 'output') {
             process.stdout.write(String.fromCharCode(output.value));
@@ -43,8 +43,7 @@ function run() {
                     rl.question('', getInput);
                 }
                 else {
-                    input = answer.split('').map(x => x.charCodeAt(0));
-                    input.push(10);
+                    input = answer + '\n';
                     run();
                 }
             }

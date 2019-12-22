@@ -16,7 +16,7 @@ lib.getInput(year, day).then((data) => {
         let currentValue = 0;
         for(let amplifier = 0; amplifier < 5; amplifier++) {
             let program = intCodes.compile(codes.slice(0));
-            currentValue = program.run([currentList[amplifier], currentValue]).value;
+            currentValue = program.run(currentList[amplifier], currentValue).value;
         }
         max = Math.max(max, currentValue);
     }
