@@ -18,14 +18,9 @@ lib.getInput(year, day).then((data) => {
         output = program.run(command, 10);
     }
 
-    while(output.signal === 'output') {
-        if(output.value > 255) {
-            console.log(output.value);
-            process.exit(0);
-        }
-        //process.stdout.write(String.fromCharCode(output.value));
-        output = program.run();
-    }
+    output = program.readString();
+    //console.log(output.str);
+    console.log(output.value);
 }).catch((err) => {
     console.log(err, err.stack);
 });

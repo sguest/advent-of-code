@@ -80,7 +80,7 @@ function compile(codes, status) {
         },
     }
 
-    return {
+    let program = {
         run: (...inputs) => {
             for(let input of inputs) {
                 if(typeof input === 'string') {
@@ -121,8 +121,22 @@ function compile(codes, status) {
         },
         getState: () => {
             return { codes, pointer, relativeBase };
+        },
+        readString: (...inputs) => {
+            let result = program.run(...inputs);
+            let str = '';
+
+            while(result.signal === 'output' && result.value > 0 && result.value <= 255) {
+                str += String.fromCharCode(result.value);
+                result = program.run();
+            }
+
+            result.str = str;
+            return result;
         }
     };
+
+    return program;
 }
 
 function parse(input) {

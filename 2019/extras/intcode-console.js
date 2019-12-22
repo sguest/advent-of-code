@@ -26,11 +26,13 @@ function run() {
     running = true;
     while(running) {
         running = false;
-        output = program.run(input);
+        output = program.readString(input);
         input = undefined;
+        
+        process.stdout.write(output.str);
 
         if(output.signal === 'output') {
-            process.stdout.write(String.fromCharCode(output.value));
+            console.log(`Invalid ascii value ${output.value}`);
             running = true;
         }
         else if(output.signal === 'input') {

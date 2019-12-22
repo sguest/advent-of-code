@@ -127,14 +127,11 @@ lib.getInput(year, day).then((data) => {
     }
 
     for(let input of inputs) {
-        output = program.run(input, 10);
+        output = program.readString(input, 10);
 
-        while(output.signal === 'output') {
-            if(output.value > 255) {
-                console.log(output.value);
-                process.exit(0);
-            }
-            output = program.run();
+        if(output.signal === 'output') {
+            console.log(output.value);
+            process.exit(0);
         }
     }
 }).catch((err) => {
