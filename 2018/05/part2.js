@@ -6,31 +6,41 @@ let day = 5;
 lib.getInput(year, day).then((data) => {
     let letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
+    let values = [];
+
+    for(let char of data) {
+        values.push(char.charCodeAt(0));
+    }
+
     let bestScore = Infinity;
 
     for(let letter of letters) {
         let change = true;
-        let oldLine = data;
+        let targetValue = letter.charCodeAt(0);
 
-        let remover = new RegExp(letter, 'gi');
+        let oldLine = [];
 
-        oldLine = oldLine.replace(remover, '');
+        for(let value of values) {
+            if(value !== targetValue && value + 32 !== targetValue) {
+                oldLine.push(value);
+            }
+        }
 
         while(change) {
             change = false;
-            let newLine = '';
+            let newLine = [];
 
             let i = 0;
             while(i < oldLine.length) {
                 let current = oldLine[i];
                 let next = oldLine[i + 1];
 
-                if(next && current !== next && current.toLowerCase() ===  next.toLowerCase()) {
+                if((current ^ next) === 32) {
                     i+=2;
                     change = true;
                 }
                 else {
-                    newLine += current;
+                    newLine.push(current);
                     i++;
                 }
             }
