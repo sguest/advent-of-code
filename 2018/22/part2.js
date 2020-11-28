@@ -58,7 +58,7 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    let path = [[{x: 0, y: 0, elapsed: 0, tool: 1, route: []}]];
+    let path = [[{x: 0, y: 0, elapsed: 0, tool: 1}]];
     let currentElapsed = 0;
     let visited = {};
 
@@ -66,16 +66,13 @@ lib.getInput(year, day).then((data) => {
         while(path[currentElapsed] && path[currentElapsed].length) {
             let current = path[currentElapsed].shift();
 
-            let route = current.route.slice(0);
-            route.push({x: current.x, y: current.y, tool: current.tool});
-
             if(current.x === targetX && current.y === targetY) {
                 if(current.tool === 1) {
                     console.log(current.elapsed);
                     break main;
                 }
-                path[current.elapsed + 7] = path[current.elapsed + 7] || [];
-                path[current.elapsed + 7].push({x: current.x, y: current.y, tool: 1, elapsed: current.elapsed + 7, route});
+                path[current.elapsed + 7] = path[current.elapsed + 7] || new lib.linkedList();
+                path[current.elapsed + 7].push({x: current.x, y: current.y, tool: 1, elapsed: current.elapsed + 7});
             }
             if(visited[current.x + ',' + current.y + ',' + current.tool]) {
                 continue;
@@ -90,14 +87,14 @@ lib.getInput(year, day).then((data) => {
                 if(x >= 0 && y >= 0) {
                     let targetType = getType(x, y);
                     if(isToolValid(targetType, current.tool)) {
-                        path[current.elapsed + 1] = path[current.elapsed + 1] || [];
-                        path[current.elapsed + 1].push({x, y, elapsed: current.elapsed + 1, tool: current.tool, route});
+                        path[current.elapsed + 1] = path[current.elapsed + 1] || new lib.linkedList();
+                        path[current.elapsed + 1].push({x, y, elapsed: current.elapsed + 1, tool: current.tool});
                     }
                 }
             }
             let currentType = getType(current.x, current.y);
             path[current.elapsed + 7] = path[current.elapsed + 7] || []
-            path[current.elapsed + 7].push({x: current.x, y: current.y, elapsed: current.elapsed + 7, tool: otherValidTool(currentType, current.tool), route})
+            path[current.elapsed + 7].push({x: current.x, y: current.y, elapsed: current.elapsed + 7, tool: otherValidTool(currentType, current.tool)})
         }
         currentElapsed++;
     }
