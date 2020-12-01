@@ -3,6 +3,7 @@ let lib = require('../../lib');
 let year = 2019;
 let day = 18;
 
+// could speed this up by bringing over the pre-computed paths from part 2.
 lib.getInput(year, day).then((data) => {
     let lines = data.split('\n');
     let grid = [];

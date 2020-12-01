@@ -9,7 +9,7 @@ lib.getInput(year, day).then((data) => {
     let lines = data.split('\n');
     let grid = [];
     let y = 0;
-    let keyCount = 0;
+    let keys = [];
     let start;
     for(let line of lines) {
         let x = 0;
@@ -23,13 +23,15 @@ lib.getInput(year, day).then((data) => {
             else if(char !== '.' && char !== '#') {
                 grid[x][y] = char;
                 if(char === char.toLowerCase()) {
-                    keyCount++;
+                    keys.push({ char, x, y });
                 }
             }
             x++;
         }
         y++;
     }
+
+    let keyCount = keys.length;
 
     let deltas = [{x: -1, y: 0}, {x: 1, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}];
 
@@ -38,6 +40,8 @@ lib.getInput(year, day).then((data) => {
         grid[start.x + delta.x][start.y + delta.y] = false;
     }
 
+    let paths = {};
+
     let bots = [
         {x: start.x - 1, y: start.y - 1},
         {x: start.x + 1, y: start.y - 1},
@@ -45,73 +49,134 @@ lib.getInput(year, day).then((data) => {
         {x: start.x + 1, y: start.y + 1}
     ];
 
-    let queue = new lib.linkedList();
-    for(let index = 0; index < bots.length; index++) {
-        queue.push({bots: bots.map(bot => { return {x: bot.x, y: bot.y} }), keys: [], steps: 0, lastBotIndex: index});
+    let targets = keys.slice(0);
+    for(let i = 0; i < bots.length; i++) {
+        targets.push({char: i + '', x: bots[i].x, y: bots[i].y});
     }
 
-    let visited = {};
+    for(let target of targets) {
+        let currentPath = {};
+        let queue = new lib.linkedList();
+        queue.push({ x: target.x, y: target.y, steps: 0, doors: [], extraKeys: [] });
+        let visited = {};
 
-    main: while(queue.length) {
-        let current = queue.shift();
+        while(queue.length) {
+            let current = queue.shift();
+            if(!grid[current.x][current.y]) {
+                continue;
+            }
+            let doorString = current.doors.join('');
 
-        let lastBot = current.bots[current.lastBotIndex];
+            let discriminator = `${current.x},${current.y},${doorString}`;
+            if(visited[discriminator]) {
+                continue;
+            }
+            visited[discriminator] = true;
 
-        if(!grid[lastBot.x][lastBot.y]) {
-            continue main;
-        }
+            let doors = current.doors.slice(0);
+            let extraKeys = current.extraKeys.slice(0);
 
-        let keys = current.keys;
+            if(current.steps > 0) {
+                if(grid[current.x][current.y] !== true) {
+                    let char = grid[current.x][current.y];
 
-        let keyString = keys.join('');
-
-        visited[keyString] = visited[keyString] || {};
-
-        let position = current.bots.map(bot => bot.x + ',' + bot.y).join(',');
-
-        if(visited[keyString][position]) {
-            continue main;
-        }
-
-        visited[keyString][position] = true;
-
-        let canSwitchBots = false;
-
-        if(grid[lastBot.x][lastBot.y] !== true) {
-            let char = grid[lastBot.x][lastBot.y];
-
-            if(char === char.toLowerCase()) {
-                let key = char;
-                if(current.keys.indexOf(key) === -1) {
-                    canSwitchBots = true;
-                    keys = current.keys.slice(0);
-                    keys.push(key);
-                    keys = keys.sort();
-
-                    if(keys.length === keyCount) {
-                        console.log(current.steps);
-                        process.exit(0);
+                    if(char === char.toLowerCase()) {
+                        if(char !== target.char) {
+                            currentPath[char] = currentPath[char] || [];
+                            currentPath[char].push({
+                                steps: current.steps,
+                                doors: doors.slice(0),
+                                extraKeys: extraKeys.slice(0),
+                            });
+                            extraKeys.push(char);
+                        }
+                    }
+                    else {
+                        char = char.toLowerCase();
+                        if(doors.indexOf(char) === -1) {
+                            doors.push(char);
+                            doors = doors.sort();
+                        }
                     }
                 }
             }
-            else {
-                let door = char;
-                if(keys.indexOf(door.toLowerCase()) === -1) {
-                    continue main;
+
+            for(let delta of deltas) {
+                queue.push({
+                    x: current.x + delta.x,
+                    y: current.y + delta.y,
+                    steps: current.steps + 1,
+                    doors: doors.slice(0),
+                    extraKeys: extraKeys.slice(0),
+                })
+            }
+        }
+
+        for(let target in currentPath) {
+            currentPath[target] = currentPath[target].sort((a, b) => a.steps - b.steps);
+        }
+        paths[target.char] = currentPath;
+    }
+
+    let queues = [];
+    queues[0] = new lib.linkedList();
+    queues[0].push({bots: ['0', '1', '2', '3'], keys: []});
+
+    let currentSteps = 0;
+
+    let visited = {};
+
+    while(true) {
+        while(queues[currentSteps] && queues[currentSteps].length) {
+            let current = queues[currentSteps].shift();
+
+            if(current.keys.length === keyCount) {
+                console.log(currentSteps);
+                process.exit(0);
+            }
+
+            let keyString = current.keys.join('');
+            if(visited[keyString]) {
+                continue;
+            }
+            visited[keyString] = true;
+
+            for(let botIndex in current.bots) {
+                let bot = current.bots[botIndex];
+                let botTargets = paths[bot];
+
+                keys: for(let targetKey in botTargets) {
+                    if(current.keys.indexOf(targetKey) === -1) {
+                        paths: for(let path of botTargets[targetKey]) {
+                            for(let door of path.doors) {
+                                if(current.keys.indexOf(door) === -1) {
+                                    continue paths;
+                                }
+                            }
+
+                            let targetSteps = currentSteps + path.steps;
+                            let targetKeys = current.keys.slice(0);
+                            targetKeys.push(targetKey);
+                            for(let key of path.extraKeys) {
+                                if(targetKeys.indexOf(key) === -1) {
+                                    targetKeys.push(key);
+                                }
+                            }
+                            targetKeys = targetKeys.sort();
+                            queues[targetSteps] = queues[targetSteps] || [];
+                            let targetBots = current.bots.slice(0);
+                            targetBots[botIndex] = targetKey;
+                            queues[targetSteps].push({ bots: targetBots, keys: targetKeys });
+                            continue keys;
+                        }
+                    }
                 }
             }
         }
 
-        for(let botIndex = 0; botIndex < current.bots.length; botIndex++) {
-            if(canSwitchBots || botIndex === current.lastBotIndex) {
-                for(let delta of deltas) {
-                    let newBots = current.bots.map(bot => { return {x: bot.x, y: bot.y} });
-                    newBots[botIndex].x += delta.x;
-                    newBots[botIndex].y += delta.y;
-                    queue.push({bots: newBots, keys, steps: current.steps + 1, lastBotIndex: botIndex});
-                }
-            }
-        }
+        queues[currentSteps] = null;
+
+        currentSteps++;
     }
 }).catch((err) => {
     console.log(err, err.stack);
