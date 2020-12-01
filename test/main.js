@@ -85,7 +85,7 @@ function testAnswer(year, day, part, timeout) {
                 return resolve();
             }
 
-            process.stdout.write(`Year ${chalk.blue(year)} day ${chalk.blue(day)} part ${chalk.blue(part)}`);
+            process.stdout.write(`Year ${chalk.blue(year)} day ${chalk.blue(dayString)} part ${chalk.blue(part)}`);
 
             fs.readFile(answerPath, 'utf-8', (err, data) => {
                 if(err) {
@@ -122,7 +122,7 @@ function testAnswer(year, day, part, timeout) {
                         if(elapsed < 1000) {
                             elapsedOutput = chalk.green(elapsed + 'ms');
                         }
-                        else if(elapsed < 10000) {
+                        else if(elapsed < 5000) {
                             elapsedOutput = chalk.yellow(elapsed + 'ms');
                         }
                         else {
