@@ -3,43 +3,61 @@ let lib = require('../../lib');
 let year = 2018;
 let day = 14;
 
-lib.getInput(year, day).then((data) => {
-    let target = data;
+let scores = new lib.linkedList();
+let candidates = new lib.linkedList();
+let target;
 
-    let scores = [3, 7];
-    let indexes = [0, 1];
+function addScore(score) {
+    for(let candidateNode of candidates.getNodes()) {
+        let candidate = candidateNode.value;
+
+        if(score === candidate.next) {
+            candidate.count++;
+            if(candidate.count === target.length) {
+                console.log(candidate.startIndex);
+                process.exit(0);
+            }
+            else {
+                candidate.next = target[candidate.count];
+            }
+        }
+        else {
+            candidates.removeNode(candidateNode);
+        }
+    }
+
+    if(score === target[0]) {
+        candidates.push({
+            next: target[1],
+            startIndex: scores.length,
+            count: 1
+        })
+    }
+
+    scores.push(score);
+}
+
+lib.getInput(year, day).then((data) => {
+    target = data.split('').map(s => +s);
+
+    let elves = [];
+    elves.push(scores.push(3));
+    elves.push(scores.push(7));
 
     while(true) {
+        let totalScore = 0;
         for(let elfNum = 0; elfNum < 2; elfNum++) {
-            let currentIndex = indexes[elfNum];
-            let currentScore = scores[currentIndex];
-            currentIndex = (currentIndex + 1 + currentScore) % scores.length;
-            indexes[elfNum] = currentIndex;
+            let steps = elves[elfNum].value + 1;
+            for(let step = 0; step < steps; step++) {
+                elves[elfNum] = scores.nextNode(elves[elfNum], true);
+            }
+            totalScore += elves[elfNum].value;
         }
-
-        let totalScore = scores[indexes[0]] + scores[indexes[1]];
 
         if(totalScore >= 10) {
-            scores.push(1);
+            addScore(1);
         }
-
-        if(scores.length >= target.length) {
-            let test = scores.slice(scores.length - target.length).join('');
-            if(test === target) {
-                console.log(scores.length - target.length);
-                break;
-            }
-        }
-        
-        scores.push(totalScore % 10);
-
-        if(scores.length >= target.length) {
-            let test = scores.slice(scores.length - target.length).join('');
-            if(test === target) {
-                console.log(scores.length - target.length);
-                break;
-            }
-        }
+        addScore(totalScore % 10);
     }
 }).catch((err) => {
     console.log(err.stack);
