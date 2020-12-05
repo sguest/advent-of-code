@@ -13,20 +13,10 @@ lib.getInput(year, day).then((data) => {
         for(let i = 0; i < 7; i++) {
             let range = max - min + 1;
             if(line[i] === 'F') {
-                if(range === 1) {
-                    max = min;
-                }
-                else {
-                    max -= range / 2;
-                }
+                max -= range / 2;
             }
             else {
-                if(range === 1) {
-                    min = max;
-                }
-                else {
-                    min += range / 2;
-                }
+                min += range / 2;
             }
         }
 
@@ -39,28 +29,16 @@ lib.getInput(year, day).then((data) => {
             let range = max - min + 1;
 
             if(line[i] === 'L') {
-                if(range === 1) {
-                    max = min;
-                }
-                else {
-                    max -= range / 2;
-                }
+                max -= range / 2;
             }
             else {
-                if(range === 1) {
-                    min = max;
-                }
-                else {
-                    min += range / 2;
-                }
+                min += range / 2;
             }
         }
 
         let column = min;
         let id = row * 8 + column;
-        if(id > maxValue) {
-            maxValue = id;
-        }
+        maxValue = Math.max(id, maxValue);
     }
     console.log(maxValue);
 }).catch((err) => {

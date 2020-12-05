@@ -6,6 +6,8 @@ let day = 5;
 lib.getInput(year, day).then((data) => {
     let lines = data.split('\n');
     let seats = [];
+    let minValue = Infinity;
+
     for(let line of lines) {
         let min = 0;
         let max = 127;
@@ -13,20 +15,10 @@ lib.getInput(year, day).then((data) => {
         for(let i = 0; i < 7; i++) {
             let range = max - min + 1;
             if(line[i] === 'F') {
-                if(range === 1) {
-                    max = min;
-                }
-                else {
-                    max -= range / 2;
-                }
+                max -= range / 2;
             }
             else {
-                if(range === 1) {
-                    min = max;
-                }
-                else {
-                    min += range / 2;
-                }
+                min += range / 2;
             }
         }
 
@@ -39,37 +31,23 @@ lib.getInput(year, day).then((data) => {
             let range = max - min + 1;
 
             if(line[i] === 'L') {
-                if(range === 1) {
-                    max = min;
-                }
-                else {
-                    max -= range / 2;
-                }
+                max -= range / 2;
             }
             else {
-                if(range === 1) {
-                    min = max;
-                }
-                else {
-                    min += range / 2;
-                }
+                min += range / 2;
             }
         }
 
         let column = min;
         let id = row * 8 + column;
         seats[id] = true;
+        minValue = Math.min(id, minValue);
     }
 
-    let current = 0;
-    let firstFound = false;
+    let current = minValue;
 
     while(true) {
-        if(seats[current]) {
-            firstFound = true;
-        }
-
-        if(firstFound && !seats[current]) {
+        if(!seats[current]) {
             console.log(current);
             process.exit(0);
         }
