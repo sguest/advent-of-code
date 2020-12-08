@@ -1,56 +1,41 @@
 let lib = require('../../lib');
+let assembly = require('../lib/assembly');
 
 let year = 2020;
 let day = 8;
 
 lib.getInput(year, day).then((data) => {
-    let lines = data.split('\n');
-    let baseOps = [];
-    for(let line of lines) {
-        baseOps.push(line);
-    }
-
+    let originalProgram = assembly.parse(data);
     let changeIndex = 0;
 
     while(true) {
-        let ops = baseOps.slice(0);
-        while(ops[changeIndex].split(' ')[0] === 'acc') {
+        let program = originalProgram.clone();
+        let state = program.getState();
+        while(state.ops[changeIndex].op === 'acc') {
             changeIndex++;
         }
-        if(ops[changeIndex].split(' ')[0] === 'nop') {
-            ops[changeIndex] = 'jmp ' + ops[changeIndex].split(' ')[1];
+        if(state.ops[changeIndex].op === 'nop') {
+            state.ops[changeIndex].op = 'jmp';
         }
         else {
-            ops[changeIndex] = 'nop +1';
+            state.ops[changeIndex].op = 'nop';
         }
 
         let visited = {};
-        let accumulator = 0;
-        let pointer = 0;
+        let cont = true;
 
-        prog: while(true) {
-            if(pointer >= ops.length) {
-                console.log(accumulator);
+        while(cont) {
+            let state = program.getState();
+            if(state.pointer >= state.ops.length) {
+                console.log(state.accumulator);
                 process.exit(0);
             }
-            else if(visited[pointer]) {
-                break prog;
+            else if(visited[state.pointer]) {
+                cont = false;
             }
-            visited[pointer] = true;
-
-            let parts = ops[pointer].split(' ');
-
-            switch(parts[0]) {
-                case 'acc':
-                    accumulator += (+parts[1]);
-                    pointer++;
-                    break;
-                case 'jmp':
-                    pointer += (+parts[1]);
-                    break;
-                case 'nop':
-                    pointer++;
-                    break;
+            else {
+                visited[state.pointer] = true;
+                program.step();
             }
         }
         changeIndex++;
