@@ -14,8 +14,7 @@ function compile(lines, initialState) {
 
     for(let line of lines) {
         let parts = line.split(' ');
-        let value = +parts[1];
-        ops.push({op: parts[0], value});
+        ops.push({op: parts[0], args: parts.slice(1).map(p => +p)});
     }
 
     let funcs = {
@@ -26,7 +25,7 @@ function compile(lines, initialState) {
         jmp: value => {
             pointer += value;
         },
-        nop: value => {
+        nop: () => {
             pointer++;
         },
     };
@@ -41,7 +40,7 @@ function compile(lines, initialState) {
         },
         step: () => {
             let currentOp = ops[pointer];
-            funcs[currentOp.op](currentOp.value);
+            funcs[currentOp.op].apply(null, currentOp.args);
         },
         clone: () => {
             return compile(lines.slice(0), { pointer, accumulator });
