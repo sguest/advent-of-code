@@ -6,19 +6,16 @@ let day = 15;
 lib.getInput(year, day).then((data) => {
     let nums = data.split(',').map(x => +x);
 
-    let last = {};
+    let last = new Map();
     for(let i = 0; i < nums.length - 1; i++) {
-        last[nums[i]] = i;
+        last.set(nums[i], i);
     }
     let current = nums[nums.length - 1];
     let index = nums.length - 1;
 
     while(index < 30000000 - 1) {
-        if(index % 10000 === 0) {
-            console.log(index);
-        }
-        let lastIndex = last[current];
-        last[current] = index;
+        let lastIndex = last.get(current);
+        last.set(current, index);
         if(lastIndex !== undefined) {
             current = index - lastIndex;
         }
