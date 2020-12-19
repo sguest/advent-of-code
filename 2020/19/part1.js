@@ -42,41 +42,31 @@ lib.getInput(year, day).then((data) => {
             let finished = true;
             let newOptions = [];
             for(let option of value) {
-                let results = [''];
+                let newOption = '';
                 for(let value of option) {
                     if(completeRules.has(value)) {
-                        let newResults = [];
-                        for(let result of results) {
-                            for(let completeRule of completeRules.get(value)) {
-                                newResults.push(result + completeRule);
-                            }
-                        }
-                        results = newResults;
+                        newOption += completeRules.get(value);
                     }
                     else {
                         finished = false;
                     }
                 }
-                for(let result of results) {
-                    newOptions.push(result);
-                }
+                newOptions.push(newOption);
             }
 
             if(finished) {
                 partialRules.delete(key);
-                completeRules.set(key, newOptions);
+                completeRules.set(key, '(?:' + newOptions.join('|') + ')');
                 dirty = true;
             }
         }
     }
 
     let count = 0;
-    let rules = completeRules.get('0');
+    let reg = new RegExp('^' + completeRules.get('0') + '$');
     for(let message of messages) {
-        for(let rule of rules) {
-            if(message === rule) {
-                count++;
-            }
+        if(reg.test(message)) {
+            count++;
         }
     }
 
