@@ -4,49 +4,47 @@ let year = 2020;
 let day = 23;
 
 lib.getInput(year, day).then((data) => {
-    let list = new lib.linkedList();
     let length = data.length;
     let lookup = new Map();
-    let current = list.push(+data[0]);
-    lookup.set(+data[0], current);
-    for(let i = 1; i < length; i++) {
-        let newNode = list.push(+data[i]);
-        lookup.set(+data[i], newNode);
+    for(let i = 0; i < length - 1; i++) {
+        lookup.set(+data[i], +data[i + 1]);
     }
 
-    for(let i = length + 1; i <= 1000000; i++) {
-        let newNode = list.push(i);
-        lookup.set(i, newNode);
+    lookup.set(+data[length - 1], length + 1);
+
+    for(let i = length + 1; i < 1000000; i++) {
+        lookup.set(i, i + 1);
     }
     length = 1000000;
+    lookup.set(length, +data[0]);
+    let current = +data[0];
 
     for(let move = 0; move < 10000000; move++) {
+        let removed = current;
         let removedValues = [];
         for(let i = 0; i < 3; i++) {
-            let nextNode = list.nextNode(current, true);
-            removedValues.push(nextNode.value);
-            list.removeNode(nextNode);
+            removed = lookup.get(removed);
+            removedValues.push(removed);
         }
-        let target = current.value;
+        let newCurrent = lookup.get(removed);
+        lookup.set(current, newCurrent);
+        let target = current;
         do {
             target = (target + length - 2) % length + 1;
         } while (removedValues.indexOf(target) !== -1)
 
-        let destination = lookup.get(target);
-
-        removedValues.reverse().forEach(value => {
-            let newNode = list.insertAfter(destination, value);
-            lookup.set(value, newNode);
+        let next = lookup.get(target);
+        removedValues.forEach(value => {
+            lookup.set(target, value);
+            target = value;
         });
+        lookup.set(target, next)
 
-        current = list.nextNode(current, true);
+        current = newCurrent;
     }
 
-    current = lookup.get(1);
-    current = list.nextNode(current, true);
-    let val1 = current.value;
-    current = list.nextNode(current, true);
-    let val2 = current.value;
+    let val1 = lookup.get(1);
+    let val2 = lookup.get(val1);
 
     console.log(val1 * val2);
 }).catch((err) => {
