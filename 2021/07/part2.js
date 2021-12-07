@@ -13,12 +13,7 @@ lib.getInput(year, day).then((data) => {
         let total = 0;
         for(let crab of crabs) {
             distance = Math.abs(crab - i);
-            let fuel = 0;
-            for(let j = 1; j <= distance; j++)
-            {
-                fuel++;
-                total += fuel;
-            }
+            total += distance * (distance + 1) / 2;
         }
 
         if(total < smallest) {
