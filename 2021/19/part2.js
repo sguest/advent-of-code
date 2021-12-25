@@ -161,16 +161,18 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    let beacons = [];
-    for(let scanner of foundScanners) {
-        for(let beacon of scanner.absoluteBeacons) {
-            if(!beacons.find(b => b.x === beacon.x && b.y === beacon.y && b.z === beacon.z)) {
-                beacons.push(beacon);
-            }
+    let maxDistance = 0;
+
+    for(let i = 0; i < foundScanners.length - 1; i++) {
+        let scanner1 = foundScanners[i];
+        for(let j = i + 1; j < foundScanners.length; j++) {
+            let scanner2 = foundScanners[j];
+            let distance = Math.abs(scanner1.x - scanner2.x) + Math.abs(scanner1.y - scanner2.y) + Math.abs(scanner1.z - scanner2.z);
+            maxDistance = Math.max(maxDistance, distance);
         }
     }
 
-    console.log(beacons.length);
+    console.log(maxDistance);
 }).catch((err) => {
     console.log(err, err.stack);
 });
