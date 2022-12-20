@@ -95,6 +95,10 @@ lib.getInput(year, day).then(data => {
 
     let rockNum = 0;
 
+    let cacheHits = 0;
+    let cacheStart = 0;
+    let cacheEnd = 0;
+
     while(true) {
         let activeRock = {
             x: 2,
@@ -176,24 +180,48 @@ lib.getInput(year, day).then(data => {
         let cacheKey = `${heightDelta.join(',')}-${rockIndex}-${inputIndex}`;
 
         if(cache[cacheKey]) {
-            let cacheItem = cache[cacheKey];
-            let offset = cacheItem;
-            let period = rockNum - offset;
-            let baseHeight = heights[offset];
-            let currentHeight = heights[rockNum];
-            let heightDelta = currentHeight - baseHeight;
-            const rockTarget = 1000000000000;
+            cacheHits++;
+            if(cacheStart === 0) {
+                cacheStart = cache[cacheKey];
+                cacheEnd = rockNum;
+            }
+            if(cacheHits > data.length) {
+                let offset = cacheStart;
+                let period = cacheEnd - offset;
+                let baseHeight = heights[offset];
+                let currentHeight = heights[cacheEnd];
+                let heightDelta = currentHeight - baseHeight;
+                const rockTarget = 1000000000000;
 
-            let cycles = Math.floor((rockTarget - offset) / period);
-            let completeAfterCycles = cycles * period + offset;
-            let remainder = rockTarget - completeAfterCycles;
-            let remainingHeight = heights[remainder];
-            console.log(cycles * heightDelta + baseHeight + remainingHeight);
+                let cycles = Math.floor((rockTarget - offset) / period);
+                let completeAfterCycles = cycles * period + offset;
+                let remainder = rockTarget - completeAfterCycles;
+                let remainingHeight = heights[offset + remainder] - baseHeight;
 
-            process.exit(0);
+                console.log('cacheEnd - ' + cacheEnd);
+                console.log('offset - ' + offset);
+                console.log('period - ' + period);
+                console.log('baseHeight - ' + baseHeight);
+                console.log('currentHeight - ' + currentHeight);
+                console.log('heightDelta - ' + heightDelta);
+
+                console.log('cycles - ' + cycles);
+                console.log('completeAfterCycles - ' + completeAfterCycles);
+                console.log('remainder - ' + remainder);
+                console.log('final rock - ' + (offset + remainder));
+                console.log('remainingHeight - ' + remainingHeight);
+
+                console.log(cycles * heightDelta + baseHeight + remainingHeight);
+
+
+                process.exit(0);
+            }
         }
         else {
             cache[cacheKey] = rockNum;
+            cacheHits = 0;
+            cacheStart = 0;
+            cacheEnd = 0;
         }
 
         rockIndex = (rockIndex + 1) % rocks.length;
@@ -203,4 +231,4 @@ lib.getInput(year, day).then(data => {
     console.log(err, err.stack);
 });
 
-// 1592592592628 too high
+// 1589142857184 too high
