@@ -191,29 +191,14 @@ lib.getInput(year, day).then(data => {
                 let baseHeight = heights[offset];
                 let currentHeight = heights[cacheEnd];
                 let heightDelta = currentHeight - baseHeight;
-                const rockTarget = 1000000000000;
+                const rockTarget = 1000000000000 - 1;
 
                 let cycles = Math.floor((rockTarget - offset) / period);
                 let completeAfterCycles = cycles * period + offset;
                 let remainder = rockTarget - completeAfterCycles;
                 let remainingHeight = heights[offset + remainder] - baseHeight;
-
-                console.log('cacheEnd - ' + cacheEnd);
-                console.log('offset - ' + offset);
-                console.log('period - ' + period);
-                console.log('baseHeight - ' + baseHeight);
-                console.log('currentHeight - ' + currentHeight);
-                console.log('heightDelta - ' + heightDelta);
-
-                console.log('cycles - ' + cycles);
-                console.log('completeAfterCycles - ' + completeAfterCycles);
-                console.log('remainder - ' + remainder);
-                console.log('final rock - ' + (offset + remainder));
-                console.log('remainingHeight - ' + remainingHeight);
-
+                
                 console.log(cycles * heightDelta + baseHeight + remainingHeight);
-
-
                 process.exit(0);
             }
         }
@@ -230,5 +215,3 @@ lib.getInput(year, day).then(data => {
 }).catch((err) => {
     console.log(err, err.stack);
 });
-
-// 1589142857184 too high

@@ -162,7 +162,6 @@ lib.getInput(year, day).then(data => {
 
             inputIndex = (inputIndex + 1) % data.length;
         }
-        console.log(`${rockNum} - ${maxHeight}`);
 
         rockIndex = (rockIndex + 1) % rocks.length;
     }
