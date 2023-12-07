@@ -27,52 +27,19 @@ lib.getInput(year, day).then((data) => {
             handCounts[card] = (handCounts[card] || 0) + 1;
         }
         let numJokers = handCounts.J;
+        delete handCounts.J;
         let countValues = [];
         for(let card in handCounts) {
             countValues.push(handCounts[card]);
         }
         countValues.sort((a, b) => a - b);
+        if(numJokers) {
+            countValues[countValues.length - 1] += numJokers
+        }
         let signature = countValues.join('');
-        let type = typeLookup[signature]
-
-        if(numJokers === 4) {
+        let type = typeLookup[signature];
+        if(numJokers === 5) {
             type = 1;
-        }
-        else if(numJokers === 3) {
-            if(type === 3) {
-                type = 1;
-            }
-            else {  //type = 4
-                type = 2;
-            }
-        }
-        else if(numJokers === 2) {
-            if(type === 3) {
-                type = 1;
-            }
-            else if(type === 5) {
-                type = 2;
-            }
-            else { //type = 6
-                type = 4;
-            }
-        }
-        else if(numJokers === 1) {
-            if(type === 2) {
-                type = 1;
-            }
-            else if(type === 4) {
-                type = 2;
-            }
-            else if(type === 5) {
-                type = 3;
-            }
-            else if(type === 6) {
-                type = 4;
-            }
-            else { // type = 7
-                type = 6;
-            }
         }
 
         rows.push({ hand, bid, type });
