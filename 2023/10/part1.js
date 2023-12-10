@@ -15,14 +15,30 @@ lib.getInput(year, day).then((data) => {
         }
     }
 
-    //todo: calculate the connections for the start instead of looking at the input manually
     let x = start.x;
-    let y = start.y + 1;
+    let y = start.y;
+    let dir;
+    let below = lines[y + 1][x];
+    if(below === '|' || below === 'L' || below === 'J') {
+        dir = 'S';
+        y++;
+    }
+    if(!dir) {
+        let above = lines[y - 1][x];
+        if(above === '|' || above ==='F' || above === '7') {
+            dir = 'N';
+            y--;
+        }
+    }
+    if(!dir) {
+        //only possible starting shape left is -, pick E or W arbitrarily
+        dir = 'E'
+        x++;
+    }
     let path = [start, { x, y }];
     let steps = 1;
-    let dir = 'S';
 
-    while(lines[y][x] !== 'S') {
+    while(x !== start.x || y !== start.y) {
         let deltaX = 0;
         let deltaY = 0;
         switch(lines[y][x] + dir) {

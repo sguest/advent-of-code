@@ -12,21 +12,38 @@ lib.getInput(year, day).then((data) => {
         let line = lines[y];
         for(let x = 0; x < line.length; x++) {
             if(line[x] === 'S') {
-                start = { x, y, mark: 'F' };
+                start = { x, y };
             }
-            line[x] = 'F';
         }
     }
 
-    //todo: calculate the connections for the start instead of looking at the input manually
     let x = start.x;
-    let y = start.y + 1;
-    let path = [start, { x, y, mark: lines[y][x] }];
+    let y = start.y;
+    let dir;
+    let below = lines[y + 1][x];
+    if(below === '|' || below === 'L' || below === 'J') {
+        // S could be |, F, or 7. Don't really care which
+        dir = 'S';
+        y++;
+    }
+    if(!dir) {
+        let above = lines[y - 1][x];
+        if(above === '|' || above ==='F' || above === '7') {
+            // S could be L or J (or | but that was caught earlier). Don't really care which
+            dir = 'N';
+            y--;
+        }
+    }
+    if(!dir) {
+        //only possible starting shape left is -, pick E or W arbitrarily
+        dir = 'E'
+        x++;
+    }
+    let path = [start, { x, y }];
     isLoop[start.y][start.x] = true;
     isLoop[y][x] = true;
-    let dir = 'S';
 
-    while(lines[y][x] !== 'S') {
+    while(x !== start.x || y !== start.y) {
         let deltaX = 0;
         let deltaY = 0;
         switch(lines[y][x] + dir) {
@@ -85,7 +102,7 @@ lib.getInput(year, day).then((data) => {
         y += deltaY;
         isLoop[y] = isLoop[y] || [];
         isLoop[y][x] = true;
-        path.push({ x, y, mark: lines[y][x] });
+        path.push({ x, y });
     }
 
     let count  = 0;
