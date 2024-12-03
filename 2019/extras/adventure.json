@@ -1,0 +1,421 @@
+{
+    "stages": {
+        "start": {
+            "intro": "Welcome to intcode adventure.\\nTo follow a path type \\\"go <path>\\\", for example \\\"go north\\\"\\nTo take an item type \\\"take <item>\\\"\\nOther possible actions will be provided in [square brackets]\\nPlease provide input in lower case.\\n",
+            "auto": {
+                "stage": "crossroad"
+            }
+        },
+        "crossroad": {
+            "intro": "You are standing in a tunnel system inside of a cave.\\nExits are north, east, and west.\\nThere is a dim light coming from the north.",
+            "options": [
+                {
+                    "text": "go north",
+                    "actions": {
+                        "stage": "dragon"
+                    }
+                },
+                {
+                    "text": "go west",
+                    "actions": {
+                        "stage": "debris-room"
+                    }
+                },
+                {
+                    "text": "go east",
+                    "actions": {
+                        "stage": "altar-room"
+                    }
+                }
+            ]
+        },
+        "dragon": {
+            "intro": "After following the path a short distance you can see the cave's exit just ahead.\\nYour view of the exit is blocked by the large dragon sleeping in front of you.\\nYou can try to sneak past the dragon and exit the cave to the north, [attack] the dragon, or return south the way you came.",
+            "options": [
+                {
+                    "text": "attack",
+                    "actions": {
+                        "stage": "dragon-fire"
+                    }
+                },
+                {
+                    "text": "go south",
+                    "actions": {
+                        "stage": "crossroad"
+                    }
+                },
+                {
+                    "text": "go north",
+                    "variables": {
+                        "have-ring": 0
+                    },
+                    "actions": {
+                        "stage": "dragon-eaten"
+                    }
+                },
+                {
+                    "text": "go north",
+                    "variables": {
+                        "have-ring": 1
+                    },
+                    "actions": {
+                        "stage": "escape"
+                    }
+                }
+            ]
+        },
+        "dragon-fire": {
+            "intro": "Your attack bounces harmlessly off the dragon's scales.\\nThe dragon wakes up and burns you to a crisp.",
+            "auto": {
+                "stage": "end"
+            }
+        },
+        "dragon-eaten": {
+            "intro": "You attempt to sneak by the dragon, but despite your best efforts your footfalls echo loudly off the walls.\\nAlerted by the noise, the dragon wakes up and makes a quick meal out of you.",
+            "auto": {
+                "stage": "end"
+            }
+        },
+        "debris-room": {
+            "intro": [
+                {
+                    "text": "You come across a chamber with debris strewn about the floor, most of which appears broken and useless.\\nExits are east and south."
+                },
+                {
+                    "variables": {
+                        "have-ring": 0
+                    },
+                    "text": "\\nThere is a chest in the corner that catches your eye. You can try to [open chest]"
+                }
+            ],
+            "options": [
+                {
+                    "text": "go east",
+                    "actions": {
+                        "stage": "crossroad"
+                    }
+                },
+                {
+                    "text": "open chest",
+                    "variables": {
+                        "have-key": 0
+                    },
+                    "actions": {
+                        "stage": "chest-locked"
+                    }
+                },
+                {
+                    "text": "open chest",
+                    "variables": {
+                        "have-ring": 0,
+                        "have-key": 1
+                    },
+                    "actions": {
+                        "stage": "ring-chest"
+                    }
+                },
+                {
+                    "text": "go south",
+                    "actions": {
+                        "stage": "goblin-room"
+                    }
+                }
+            ]
+        },
+        "chest-locked": {
+            "intro": "The chest is securely locked, if only you had a key.",
+            "auto": {
+                "stage": "debris-room"
+            }
+        },
+        "ring-chest": {
+            "intro": "You open the chest and find a ring inside.\\nAs you put it on your finger, you discover it must have magical powers, as your steps become nearly silent",
+            "auto": {
+                "variables": {
+                    "have-ring": 1
+                },
+                "stage": "debris-room"
+            }
+        },
+        "escape": {
+            "intro": "Thanks to your magic ring you don't make a sound as you sneak past the dragon, which continues its slumber undisturbed\\n\\nCongratulations, you have escaped the cave and successfully completed this adventure.",
+            "auto": {
+                "stage": "end"
+            }
+        },
+        "altar-room": {
+            "intro": [
+                {
+                    "text": "You come to a room with a glowing altar of white marble.\\n"
+                },
+                {
+                    "variables": {
+                        "have-key": 0
+                    },
+                    "text": "On the altar is an inscription that reads 'recite the magic word and you shall be rewarded'\\nIt appears the magic word was once inscribed below, but several pieces are missing and only the last letter 'a' is visible.\\nIf you know the magic word, you can say it now.\\n"
+                },
+                {
+                    "text": "Exits are west, north, and south"
+                }
+            ],
+            "options": [
+                {
+                    "text": "santa",
+                    "variables": {
+                        "have-key": 0
+                    },
+                    "actions": {
+                        "stage": "get-key"
+                    }
+                },
+                {
+                    "text": "go west",
+                    "actions": {
+                        "stage": "crossroad"
+                    }
+                },
+                {
+                    "text": "go north",
+                    "actions": {
+                        "stage": "shard-room"
+                    }
+                },
+                {
+                    "text": "go south",
+                    "actions": {
+                        "stage": "armory"
+                    }
+                }
+            ]
+        },
+        "get-key": {
+            "intro": "The altar opens, revealing a key inside. You place the key in your pocket.",
+            "auto": {
+                "variables": {
+                    "have-key": 1
+                },
+                "stage": "altar-room"
+            }
+        },
+        "shard-room": {
+            "intro": [
+                {
+                    "text": "The path comes to a dead end\\n"
+                },
+                {
+                    "variables": {
+                        "have-t": 0
+                    },
+                    "text": "There is a white stone lying on the ground.\\n"
+                },
+                {
+                    "text": "The only exit is back south the way you came."
+                }
+            ],
+            "options": [
+                {
+                    "text": "go south",
+                    "actions": {
+                        "stage": "altar-room"
+                    }
+                },
+                {
+                    "text": "take stone",
+                    "variables": {
+                        "have-t": 0
+                    },
+                    "actions": {
+                        "stage": "get-t-stone"
+                    }
+                },
+                {
+                    "text": "take white stone",
+                    "variables": {
+                        "have-t": 0
+                    },
+                    "actions": {
+                        "stage": "get-t-stone"
+                    }
+                }
+            ]
+        },
+        "get-t-stone": {
+            "intro": "You pick up the small white stone. It appears to be a shard of marble with the letter 't' on it.",
+            "auto": {
+                "variables": {
+                    "have-t": 1
+                },
+                "stage": "shard-room"
+            }
+        },
+        "armory": {
+            "intro": [
+                {
+                    "text": "You are in a room with empty weapon racks along the walls.\\n"
+                },
+                {
+                    "variables": {
+                        "have-sword": 0
+                    },
+                    "text": "There is a single sword remaining in one of the racks.\\n"
+                },
+                {
+                    "variables": {
+                        "have-a": 0
+                    },
+                    "text": "There is a white stone lying in the corner of the room.\\n"
+                },
+                {
+                    "text": "The only exit is north."
+                }
+            ],
+            "options": [
+                {
+                    "text": "take sword",
+                    "variables": {
+                        "have-sword": 0
+                    },
+                    "actions": {
+                        "stage": "get-sword"
+                    }
+                },
+                {
+                    "text": "take stone",
+                    "variables": {
+                        "have-a": 0
+                    },
+                    "actions": {
+                        "stage": "get-a-stone"
+                    }
+                },
+                {
+                    "text": "take white stone",
+                    "variables": {
+                        "have-a": 0
+                    },
+                    "actions": {
+                        "stage": "get-a-stone"
+                    }
+                },
+                {
+                    "text": "go north",
+                    "actions": {
+                        "stage": "altar-room"
+                    }
+                }
+            ]
+        },
+        "get-sword": {
+            "intro": "You pick up the sword. You feel safer already.",
+            "auto": {
+                "variables": {
+                    "have-sword": 1
+                },
+                "stage": "armory"
+            }
+        },
+        "get-a-stone": {
+            "intro": "You pick up the small white stone. It appears to be a shard of marble with the letter 'a' on it.",
+            "auto": {
+                "variables": {
+                    "have-a": 1
+                },
+                "stage": "armory"
+            }
+        },
+        "goblin-room": {
+            "intro": [
+                {
+                    "text": "You are in a section of the cave full of twists and turns.\\n"
+                },
+                {
+                    "text": "You notice a goblin around a corner just ahead of you. It is carrying a wicked-looking spear.\\nIt doesn't appear to have noticed you yet, but you'll have to [attack] it to continue south.\\nOr you can go back north.",
+                    "variables": {
+                        "goblin-dead": 0
+                    }
+                },
+                {
+                    "text": "Possible exits are north and south",
+                    "variables": {
+                        "goblin-dead": 1
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "text": "go north",
+                    "actions": {
+                        "stage": "debris-room"
+                    }
+                },
+                {
+                    "text": "go south",
+                    "variables": {
+                        "goblin-dead": 1
+                    },
+                    "actions": {
+                        "stage": "crevice-room"
+                    }
+                },
+                {
+                    "text": "attack",
+                    "variables": {
+                        "goblin-dead": 0,
+                        "have-sword": 0
+                    },
+                    "actions": {
+                        "stage": "goblin-lose"
+                    }
+                },
+                {
+                    "text": "attack",
+                    "variables": {
+                        "goblin-dead": 0,
+                        "have-sword": 1
+                    },
+                    "actions": {
+                        "stage": "goblin-win"
+                    }
+                }
+            ]
+        },
+        "goblin-lose": {
+            "intro": "You get the jump on the goblin, but your fists are simply no match for its spear.\\nDespite your valiant efforts, the goblin is victorious and your adventure is over.",
+            "auto": {
+                "stage": "end"
+            }
+        },
+        "goblin-win": {
+            "intro": "You get the jump on the goblin, and land a few sure strikes with your sword.\\nIn no time the goblin falls to the ground.\\nAs it collapses, a small marble shard with the letter 's' on it falls out of its pocket.",
+            "auto": {
+                "variables": {
+                    "goblin-dead": 1
+                },
+                "stage": "goblin-room"
+            }
+        },
+        "crevice-room": {
+            "intro": "The path reaches an abrupt dead end, except for a small crevice in the western wall.\\nYou can return north the way you came, or try to squeeze through the crevice to the west and hope you don't get stuck.",
+            "options": [
+                {
+                    "text": "go north",
+                    "actions": {
+                        "stage": "goblin-room"
+                    }
+                },
+                {
+                    "text": "go west",
+                    "actions": {
+                        "stage": "crevice"
+                    }
+                }
+            ]
+        },
+        "crevice": {
+            "intro": "You try to pass through the crevice, but the opening is just too small.\\nHowever, you are able to make out a small marble shard with the letter 'n' just out of your reach.",
+            "auto": {
+                "stage": "crevice-room"
+            }
+        }
+    }
+}

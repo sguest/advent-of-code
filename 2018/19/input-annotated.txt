@@ -1,0 +1,36 @@
+addi 2 16 2 -- goto FIRST
+seti 1 * 1 -- START: a = 1
+seti 1 * 4 -- SECOND: d = 1
+mulr 1 4 3 -- THIRD: c = a * d
+eqrr 3 5 3 -- c = (c == e ? 1 : 0)
+addr 3 2 2 -- jump RELATIVE c
+addi 2 1 2 -- SKIP next
+addr 1 0 0 -- a += b
+addi 4 1 4 -- d++
+gtrr 4 5 3 -- c = (d > e ? 1 : 0)
+addr 2 3 2 -- jump RELATIVE c
+seti 2 * 2 -- goto THIRD
+addi 1 * 1 -- a++
+gtrr 1 5 3 -- c = (a > e ? 1 : 0)
+addr 3 2 2 -- jump RELATIVE c
+seti 1 * 2 -- GOTO SECOND
+mulr 2 2 2 -- END
+addi 5 2 5 -- FIRST: e += 2
+mulr 5 5 5 -- e = e * e;
+mulr 2 5 5 -- e = e * pointer;
+muli 5 11 5 -- e = e * 11
+addi 3 4 3 -- c += 4
+mulr 3 2 3 -- c *= pointer
+addi 3 7 3 -- c += 7
+addr 5 3 5 -- e += c
+addr 2 0 2 -- jump RELATIVE a
+seti 0 * 2 -- goto START
+setr 2 * 3 -- c = 2
+mulr 3 2 3 -- c *= pointer
+addr 2 3 3 -- c += pointer
+mulr 2 3 3 -- c *= pointer
+muli 3 14 3 -- c *= 14
+mulr 3 2 3 -- c *= pointer
+addr 5 3 5 -- e += c
+seti 0 * 0 -- a = 0
+seti 0 * 2 -- goto START

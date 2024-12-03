@@ -1,0 +1,71 @@
+inp w in1
+z = in1 + 4
+inp w in2
+z = ((in1 + 4) * 26) + in2 + 11
+inp w in3
+z = (((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5
+inp w in4
+z = ((((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5) * 26 + in4 + 11
+inp w in5
+z = (((((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5) * 26 + in4 + 11) * 26
+y = in5 + 14
+z = (((((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5) * 26 + in4 + 11) * 26 + in5 + 14
+inp w in6
+z = ((((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5) * 26 + in4 + 11
+
+inp w in7
+
+assert(in6 = in5 + 4)
+
+inp w in8
+
+assert(in8 = in7 + 2)
+
+inp w in9
+x =  in4 + 8
+z = (((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5
+
+assert(in9 = in4 + 8)
+
+inp w in10
+x = 1
+y = in10 + 5
+z = ((((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5) * 26 + in10 + 5
+
+inp w in11
+x = in10
+z = (((in1 + 4) * 26) + in2 + 11) * 26 + in3 + 5
+
+assert(in10 = in11)
+
+inp w in12
+x = in3 - 5
+z = ((in1 + 4) * 26) + in2 + 11
+
+assert(in12 = in3 - 5)
+
+inp w in13
+
+x = in2 + 7
+z = in1 + 4
+
+assert(in13 = in2 + 7)
+
+inp w in14
+
+x = in1 - 1
+z = 0
+
+assert(in14 = in1 - 1)
+
+add z y
+
+### ASSERTS ###
+
+assert(in6 = in5 + 4)
+assert(in8 = in7 + 2)
+assert(in9 = in4 + 8)
+assert(in10 = in11)
+assert(in3 = in12 + 5)
+assert(in13 = in2 + 7)
+assert(in1 = in14 + 1)

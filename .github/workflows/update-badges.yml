@@ -1,0 +1,33 @@
+name: Update AoC Badges
+on:
+  schedule:                                      # run workflow based on schedule
+    - cron: '16 7 1-25 12 *'                     # from the 1. December till 25. December every day at 5:06am (avoid load at full hours) Changed this to 6:16 myself. Try to desync from other traffic spikes
+    
+  workflow_dispatch:                             # allow to manually start the workflow 
+  
+# push:                                          # (disabled) run on push, be careful with this setting 
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2                # clones your repo
+          
+      - uses: joblo2213/aoc-badges-action@v3
+        with:
+          userid: 135675                         # your user id, see setup on how to obtain
+          session: ${{ secrets.AOC_SESSION }}    # secret containing session code, see setup on how to obtain
+          
+#         Optional inputs:
+#         
+          year: 2024                                                                                     # The year for which stats should be retrieved
+#         leaderboard: 'https://adventofcode.com/2020/leaderboard/private/view/00000.json'               # The url of the leaderboard from witch the data is fetched. Typically your private leaderboard.
+#         file: 'README.md'                                                                              # The file that contains the badges
+#         dayRegex: '(?<=https:\/\/img\.shields\.io\/badge\/day%20📅-)[0-9]+(?=-blue)'                   # Regular expression that finds the content of the day badge iun your file.
+          starsRegex: '(?<=2024 Stars]\(https:\/\/img\.shields\.io\/badge\/stars%20⭐-)[0-9]+(?=-yellow)'             # Regular expression that finds the content of the stars badge iun your file.
+#         daysCompletedRegex: '(?<=https:\/\/img\.shields\.io\/badge\/days%20completed-)[0-9]+(?=-red)'  # Regular expression that finds the content of the days completed badge iun your file.
+
+      - uses: stefanzweifel/git-auto-commit-action@v4     # Step that pushes these local changes back to your github repo
+        with:
+          commit_message: Update badges
+          file_pattern: README.md

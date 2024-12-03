@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Password verifier</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <style>
+            pre {
+                display: inline;
+                background-color: #ccc;
+            }
+
+            .password-display {
+                font-size: 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Password verifier game</h1>
+            <p>Game based on <a href="https://adventofcode.com/2020/day/2" target="_blank">Advent of Code 2020 day 2</a></p>
+            <p>See how fast you can verify 15 passwords</p>
+            <p><label><input type="radio" name="mode" id="mode1" checked /> Mode 1</label> <pre>a 3-5</pre> means password must contain at least 3 and at most 5 instances of <pre>a</pre></p>
+            <p><label><input type="radio" name="mode" id="mode2" /> Mode 2</label> <pre>a 3-5</pre> means password's 3rd or 5th letter must be <pre>a</pre>, but <strong>NOT</strong> both</p>
+            <div id="game-area" class="d-none">
+                <p><span id="time-display"></span></p>
+                <p><span id="score-display"></span></p>
+                <p><pre id="password-display" class="password-display"></pre></p>
+                <p>
+                    <button type="button" id="valid" class="btn btn-success">(V)alid</button>
+                    <button type="button" id="invalid" class="btn btn-danger">(N)ot Valid</button>
+                </p>
+            </div>
+            <div id="win-area" class="d-none">
+                <div class="alert alert-success">Congratulations</div>
+                <p>Your final time was <strong id="win-time-display"></strong></p>
+            </div>
+            <div id="lose-area" class="d-none">
+                <div class="alert alert-danger">Incorrect</div>
+                <p><pre id="lose-password"></pre> should have been <strong id="lose-result"></strong></p>
+            </div>
+            <p>
+                <button type="button" id="go" class="btn btn-primary" autofocus>Go</button>
+            </p>
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+main: do {
+    d = e | 65536 -- 0x10000
+    e = 14464005 -- 0xdcb405
+    do {
+        c = d & 255 -- 0xff
+        e += c
+        e = e & 16777215 -- 0xffffff
+        e *= 65899 -- 0x1016b
+        e = e & 16777215 -- 0xffffff
+        if(d < 256) {
+            continue main
+        }
+        else {
+            d = d >> 8
+        }
+    }
+} while (e !== input)

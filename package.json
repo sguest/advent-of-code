@@ -1,0 +1,29 @@
+{
+  "name": "aoc-sguest",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "init.js",
+  "scripts": {
+    "init": "node init",
+    "test": "node test/main.js",
+    "set-auth": "node lib/setAuth.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sguest/advent-of-code.git"
+  },
+  "author": "Spencer Guest",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sguest/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/sguest/advent-of-code#readme",
+  "dependencies": {
+    "@datastructures-js/priority-queue": "^6.1.1",
+    "bigint-crypto-utils": "^2.4.2",
+    "chalk": "^2.4.1",
+    "js-combinatorics": "^0.5.4",
+    "md5": "^2.2.1"
+  }
+}

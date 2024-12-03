@@ -1,0 +1,52 @@
+<stages>
+
+*inputoffset
+*input;203,&inputbase
+        2108,10,&inputbase,&boolpointer
+        1005,&boolpointer,&inputend
+        101,-1,&inputoffset,&inputoffset
+        109,1
+        1105,1,&input
+    *inputend;21101,-1,0,&inputbase
+        9,&inputoffset
+        1101,0,0,&inputoffset
+        105,1,&returnpointer
+
+*writepointer
+*stringwriter;101,0,&writepointer,&writepointer1
+    101,0,&writepointer,&writepointer2
+    *stringwriterloop;108,-1,*writepointer1,&boolpointer
+        5,&boolpointer,&returnpointer
+        4,*writepointer2
+        101,1,&writepointer1,&writepointer1
+        101,1,&writepointer2,&writepointer2
+        1105,1,&stringwriterloop
+
+*comparetarget1
+*compareoutput
+*stringcomparer;101,0,&comparetarget1,&comparetarget1-1
+        101,0,&comparetarget1,&comparetarget1-2
+    *stringcomparerloop;8,*comparetarget1-1,*comparetarget2,&compareoutput
+        6,&compareoutput,&returnpointer
+        108,-1,*comparetarget1-2,&boolpointer
+        1005,&boolpointer,&compareequal
+        101,1,&comparetarget1-1,&comparetarget1-1
+        101,1,&comparetarget1-2,&comparetarget1-2
+        101,1,&comparetarget2,&comparetarget2
+        1105,1,&stringcomparerloop
+    *compareequal;1101,1,0,&compareoutput
+        105,1,&returnpointer
+
+#String data
+<strings>
+*str-unknown-option;"That's not a valid option\n",-1
+
+*stage-end;99
+
+#Misc pointers
+*returnpointer,*boolpointer
+
+#Variables
+<vars>
+
+*inputbase

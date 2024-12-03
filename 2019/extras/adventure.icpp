@@ -1,0 +1,504 @@
+*stage-start;1101,&str-start-intro-0,0,&writepointer
+1101,&stage-start-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-start-actions;1105,1,&stage-crossroad
+
+*stage-crossroad;1101,&str-crossroad-intro-0,0,&writepointer
+1101,&stage-crossroad-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-crossroad-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-crossroad-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-crossroad-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-crossroad-option-1
+1105,1,&stage-dragon
+*stage-crossroad-option-1;1101,&inputbase,0,&comparetarget1
+1101,&str-crossroad-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-crossroad-option-2
+1105,1,&stage-debris-room
+*stage-crossroad-option-2;1101,&inputbase,0,&comparetarget1
+1101,&str-crossroad-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-crossroad-unknown
+1105,1,&stage-altar-room
+*stage-crossroad-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-crossroad,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-dragon;1101,&str-dragon-intro-0,0,&writepointer
+1101,&stage-dragon-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-dragon-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-dragon-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-dragon-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-dragon-option-1
+1105,1,&stage-dragon-fire
+*stage-dragon-option-1;1101,&inputbase,0,&comparetarget1
+1101,&str-dragon-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-dragon-option-2
+1105,1,&stage-crossroad
+*stage-dragon-option-2;108,0,&var-have-ring,&boolpointer
+1006,&boolpointer,&stage-dragon-option-3
+1101,&inputbase,0,&comparetarget1
+1101,&str-dragon-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-dragon-option-3
+1105,1,&stage-dragon-eaten
+*stage-dragon-option-3;108,1,&var-have-ring,&boolpointer
+1006,&boolpointer,&stage-dragon-unknown
+1101,&inputbase,0,&comparetarget1
+1101,&str-dragon-option-3,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-dragon-unknown
+1105,1,&stage-escape
+*stage-dragon-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-dragon,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-dragon-fire;1101,&str-dragon-fire-intro-0,0,&writepointer
+1101,&stage-dragon-fire-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-dragon-fire-actions;1105,1,&stage-end
+
+*stage-dragon-eaten;1101,&str-dragon-eaten-intro-0,0,&writepointer
+1101,&stage-dragon-eaten-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-dragon-eaten-actions;1105,1,&stage-end
+
+*stage-debris-room;1101,&str-debris-room-intro-0,0,&writepointer
+1101,&stage-debris-room-intro-1,0,&returnpointer
+1105,1,&stringwriter
+*stage-debris-room-intro-1;108,0,&var-have-ring,&boolpointer
+1006,&boolpointer,&stage-debris-room-actions
+1101,&str-debris-room-intro-1,0,&writepointer
+1101,&stage-debris-room-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-debris-room-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-debris-room-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-debris-room-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-debris-room-option-1
+1105,1,&stage-crossroad
+*stage-debris-room-option-1;108,0,&var-have-key,&boolpointer
+1006,&boolpointer,&stage-debris-room-option-2
+1101,&inputbase,0,&comparetarget1
+1101,&str-debris-room-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-debris-room-option-2
+1105,1,&stage-chest-locked
+*stage-debris-room-option-2;108,0,&var-have-ring,&boolpointer
+1006,&boolpointer,&stage-debris-room-option-3
+108,1,&var-have-key,&boolpointer
+1006,&boolpointer,&stage-debris-room-option-3
+1101,&inputbase,0,&comparetarget1
+1101,&str-debris-room-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-debris-room-option-3
+1105,1,&stage-ring-chest
+*stage-debris-room-option-3;1101,&inputbase,0,&comparetarget1
+1101,&str-debris-room-option-3,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-debris-room-unknown
+1105,1,&stage-goblin-room
+*stage-debris-room-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-debris-room,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-chest-locked;1101,&str-chest-locked-intro-0,0,&writepointer
+1101,&stage-chest-locked-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-chest-locked-actions;1105,1,&stage-debris-room
+
+*stage-ring-chest;1101,&str-ring-chest-intro-0,0,&writepointer
+1101,&stage-ring-chest-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-ring-chest-actions;1101,1,0,&var-have-ring
+1105,1,&stage-debris-room
+
+*stage-escape;1101,&str-escape-intro-0,0,&writepointer
+1101,&stage-escape-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-escape-actions;1105,1,&stage-end
+
+*stage-altar-room;1101,&str-altar-room-intro-0,0,&writepointer
+1101,&stage-altar-room-intro-1,0,&returnpointer
+1105,1,&stringwriter
+*stage-altar-room-intro-1;108,0,&var-have-key,&boolpointer
+1006,&boolpointer,&stage-altar-room-intro-2
+1101,&str-altar-room-intro-1,0,&writepointer
+1101,&stage-altar-room-intro-2,0,&returnpointer
+1105,1,&stringwriter
+*stage-altar-room-intro-2;1101,&str-altar-room-intro-2,0,&writepointer
+1101,&stage-altar-room-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-altar-room-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-altar-room-option-0;108,0,&var-have-key,&boolpointer
+1006,&boolpointer,&stage-altar-room-option-1
+1101,&inputbase,0,&comparetarget1
+1101,&str-altar-room-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-altar-room-option-1
+1105,1,&stage-get-key
+*stage-altar-room-option-1;1101,&inputbase,0,&comparetarget1
+1101,&str-altar-room-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-altar-room-option-2
+1105,1,&stage-crossroad
+*stage-altar-room-option-2;1101,&inputbase,0,&comparetarget1
+1101,&str-altar-room-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-altar-room-option-3
+1105,1,&stage-shard-room
+*stage-altar-room-option-3;1101,&inputbase,0,&comparetarget1
+1101,&str-altar-room-option-3,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-altar-room-unknown
+1105,1,&stage-armory
+*stage-altar-room-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-altar-room,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-get-key;1101,&str-get-key-intro-0,0,&writepointer
+1101,&stage-get-key-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-get-key-actions;1101,1,0,&var-have-key
+1105,1,&stage-altar-room
+
+*stage-shard-room;1101,&str-shard-room-intro-0,0,&writepointer
+1101,&stage-shard-room-intro-1,0,&returnpointer
+1105,1,&stringwriter
+*stage-shard-room-intro-1;108,0,&var-have-t,&boolpointer
+1006,&boolpointer,&stage-shard-room-intro-2
+1101,&str-shard-room-intro-1,0,&writepointer
+1101,&stage-shard-room-intro-2,0,&returnpointer
+1105,1,&stringwriter
+*stage-shard-room-intro-2;1101,&str-shard-room-intro-2,0,&writepointer
+1101,&stage-shard-room-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-shard-room-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-shard-room-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-shard-room-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-shard-room-option-1
+1105,1,&stage-altar-room
+*stage-shard-room-option-1;108,0,&var-have-t,&boolpointer
+1006,&boolpointer,&stage-shard-room-option-2
+1101,&inputbase,0,&comparetarget1
+1101,&str-shard-room-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-shard-room-option-2
+1105,1,&stage-get-t-stone
+*stage-shard-room-option-2;108,0,&var-have-t,&boolpointer
+1006,&boolpointer,&stage-shard-room-unknown
+1101,&inputbase,0,&comparetarget1
+1101,&str-shard-room-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-shard-room-unknown
+1105,1,&stage-get-t-stone
+*stage-shard-room-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-shard-room,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-get-t-stone;1101,&str-get-t-stone-intro-0,0,&writepointer
+1101,&stage-get-t-stone-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-get-t-stone-actions;1101,1,0,&var-have-t
+1105,1,&stage-shard-room
+
+*stage-armory;1101,&str-armory-intro-0,0,&writepointer
+1101,&stage-armory-intro-1,0,&returnpointer
+1105,1,&stringwriter
+*stage-armory-intro-1;108,0,&var-have-sword,&boolpointer
+1006,&boolpointer,&stage-armory-intro-2
+1101,&str-armory-intro-1,0,&writepointer
+1101,&stage-armory-intro-2,0,&returnpointer
+1105,1,&stringwriter
+*stage-armory-intro-2;108,0,&var-have-a,&boolpointer
+1006,&boolpointer,&stage-armory-intro-3
+1101,&str-armory-intro-2,0,&writepointer
+1101,&stage-armory-intro-3,0,&returnpointer
+1105,1,&stringwriter
+*stage-armory-intro-3;1101,&str-armory-intro-3,0,&writepointer
+1101,&stage-armory-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-armory-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-armory-option-0;108,0,&var-have-sword,&boolpointer
+1006,&boolpointer,&stage-armory-option-1
+1101,&inputbase,0,&comparetarget1
+1101,&str-armory-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-armory-option-1
+1105,1,&stage-get-sword
+*stage-armory-option-1;108,0,&var-have-a,&boolpointer
+1006,&boolpointer,&stage-armory-option-2
+1101,&inputbase,0,&comparetarget1
+1101,&str-armory-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-armory-option-2
+1105,1,&stage-get-a-stone
+*stage-armory-option-2;108,0,&var-have-a,&boolpointer
+1006,&boolpointer,&stage-armory-option-3
+1101,&inputbase,0,&comparetarget1
+1101,&str-armory-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-armory-option-3
+1105,1,&stage-get-a-stone
+*stage-armory-option-3;1101,&inputbase,0,&comparetarget1
+1101,&str-armory-option-3,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-armory-unknown
+1105,1,&stage-altar-room
+*stage-armory-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-armory,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-get-sword;1101,&str-get-sword-intro-0,0,&writepointer
+1101,&stage-get-sword-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-get-sword-actions;1101,1,0,&var-have-sword
+1105,1,&stage-armory
+
+*stage-get-a-stone;1101,&str-get-a-stone-intro-0,0,&writepointer
+1101,&stage-get-a-stone-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-get-a-stone-actions;1101,1,0,&var-have-a
+1105,1,&stage-armory
+
+*stage-goblin-room;1101,&str-goblin-room-intro-0,0,&writepointer
+1101,&stage-goblin-room-intro-1,0,&returnpointer
+1105,1,&stringwriter
+*stage-goblin-room-intro-1;108,0,&var-goblin-dead,&boolpointer
+1006,&boolpointer,&stage-goblin-room-intro-2
+1101,&str-goblin-room-intro-1,0,&writepointer
+1101,&stage-goblin-room-intro-2,0,&returnpointer
+1105,1,&stringwriter
+*stage-goblin-room-intro-2;108,1,&var-goblin-dead,&boolpointer
+1006,&boolpointer,&stage-goblin-room-actions
+1101,&str-goblin-room-intro-2,0,&writepointer
+1101,&stage-goblin-room-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-goblin-room-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-goblin-room-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-goblin-room-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-goblin-room-option-1
+1105,1,&stage-debris-room
+*stage-goblin-room-option-1;108,1,&var-goblin-dead,&boolpointer
+1006,&boolpointer,&stage-goblin-room-option-2
+1101,&inputbase,0,&comparetarget1
+1101,&str-goblin-room-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-goblin-room-option-2
+1105,1,&stage-crevice-room
+*stage-goblin-room-option-2;108,0,&var-goblin-dead,&boolpointer
+1006,&boolpointer,&stage-goblin-room-option-3
+108,0,&var-have-sword,&boolpointer
+1006,&boolpointer,&stage-goblin-room-option-3
+1101,&inputbase,0,&comparetarget1
+1101,&str-goblin-room-option-2,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-goblin-room-option-3
+1105,1,&stage-goblin-lose
+*stage-goblin-room-option-3;108,0,&var-goblin-dead,&boolpointer
+1006,&boolpointer,&stage-goblin-room-unknown
+108,1,&var-have-sword,&boolpointer
+1006,&boolpointer,&stage-goblin-room-unknown
+1101,&inputbase,0,&comparetarget1
+1101,&str-goblin-room-option-3,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-goblin-room-unknown
+1105,1,&stage-goblin-win
+*stage-goblin-room-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-goblin-room,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-goblin-lose;1101,&str-goblin-lose-intro-0,0,&writepointer
+1101,&stage-goblin-lose-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-goblin-lose-actions;1105,1,&stage-end
+
+*stage-goblin-win;1101,&str-goblin-win-intro-0,0,&writepointer
+1101,&stage-goblin-win-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-goblin-win-actions;1101,1,0,&var-goblin-dead
+1105,1,&stage-goblin-room
+
+*stage-crevice-room;1101,&str-crevice-room-intro-0,0,&writepointer
+1101,&stage-crevice-room-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-crevice-room-actions;1101,&6,0,&returnpointer
+1105,1,&input
+*stage-crevice-room-option-0;1101,&inputbase,0,&comparetarget1
+1101,&str-crevice-room-option-0,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-crevice-room-option-1
+1105,1,&stage-goblin-room
+*stage-crevice-room-option-1;1101,&inputbase,0,&comparetarget1
+1101,&str-crevice-room-option-1,0,&comparetarget2
+1101,&6,0,&returnpointer
+1105,1,&stringcomparer
+1006,&compareoutput,&stage-crevice-room-unknown
+1105,1,&stage-crevice
+*stage-crevice-room-unknown;1101,&str-unknown-option,0,&writepointer
+1101,&stage-crevice-room,0,&returnpointer
+1105,1,&stringwriter
+
+*stage-crevice;1101,&str-crevice-intro-0,0,&writepointer
+1101,&stage-crevice-actions,0,&returnpointer
+1105,1,&stringwriter
+*stage-crevice-actions;1105,1,&stage-crevice-room
+
+
+
+*inputoffset
+*input;203,&inputbase
+        2108,10,&inputbase,&boolpointer
+        1005,&boolpointer,&inputend
+        101,-1,&inputoffset,&inputoffset
+        109,1
+        1105,1,&input
+    *inputend;21101,-1,0,&inputbase
+        9,&inputoffset
+        1101,0,0,&inputoffset
+        105,1,&returnpointer
+
+*writepointer
+*stringwriter;101,0,&writepointer,&writepointer1
+    101,0,&writepointer,&writepointer2
+    *stringwriterloop;108,-1,*writepointer1,&boolpointer
+        5,&boolpointer,&returnpointer
+        4,*writepointer2
+        101,1,&writepointer1,&writepointer1
+        101,1,&writepointer2,&writepointer2
+        1105,1,&stringwriterloop
+
+*comparetarget1
+*compareoutput
+*stringcomparer;101,0,&comparetarget1,&comparetarget1-1
+        101,0,&comparetarget1,&comparetarget1-2
+    *stringcomparerloop;8,*comparetarget1-1,*comparetarget2,&compareoutput
+        6,&compareoutput,&returnpointer
+        108,-1,*comparetarget1-2,&boolpointer
+        1005,&boolpointer,&compareequal
+        101,1,&comparetarget1-1,&comparetarget1-1
+        101,1,&comparetarget1-2,&comparetarget1-2
+        101,1,&comparetarget2,&comparetarget2
+        1105,1,&stringcomparerloop
+    *compareequal;1101,1,0,&compareoutput
+        105,1,&returnpointer
+
+#String data
+*str-start-intro-0;"Welcome to intcode adventure.\nTo follow a path type \"go <path>\"\+ for example \"go north\"\nTo take an item type \"take <item>\"\nOther possible actions will be provided in [square brackets]\nPlease provide input in lower case.\n\n",-1
+*str-crossroad-intro-0;"You are standing in a tunnel system inside of a cave.\nExits are north\+ east\+ and west.\nThere is a dim light coming from the north.\n",-1
+*str-crossroad-option-0;"go north",-1
+*str-crossroad-option-1;"go west",-1
+*str-crossroad-option-2;"go east",-1
+*str-dragon-intro-0;"After following the path a short distance you can see the cave's exit just ahead.\nYour view of the exit is blocked by the large dragon sleeping in front of you.\nYou can try to sneak past the dragon and exit the cave to the north\+ [attack] the dragon\+ or return south the way you came.\n",-1
+*str-dragon-option-0;"attack",-1
+*str-dragon-option-1;"go south",-1
+*str-dragon-option-2;"go north",-1
+*str-dragon-option-3;"go north",-1
+*str-dragon-fire-intro-0;"Your attack bounces harmlessly off the dragon's scales.\nThe dragon wakes up and burns you to a crisp.\n",-1
+*str-dragon-eaten-intro-0;"You attempt to sneak by the dragon\+ but despite your best efforts your footfalls echo loudly off the walls.\nAlerted by the noise\+ the dragon wakes up and makes a quick meal out of you.\n",-1
+*str-debris-room-intro-0;"You come across a chamber with debris strewn about the floor\+ most of which appears broken and useless.\nExits are east and south.\n",-1
+*str-debris-room-intro-1;"\nThere is a chest in the corner that catches your eye. You can try to [open chest]\n",-1
+*str-debris-room-option-0;"go east",-1
+*str-debris-room-option-1;"open chest",-1
+*str-debris-room-option-2;"open chest",-1
+*str-debris-room-option-3;"go south",-1
+*str-chest-locked-intro-0;"The chest is securely locked\+ if only you had a key.\n",-1
+*str-ring-chest-intro-0;"You open the chest and find a ring inside.\nAs you put it on your finger\+ you discover it must have magical powers\+ as your steps become nearly silent\n",-1
+*str-escape-intro-0;"Thanks to your magic ring you don't make a sound as you sneak past the dragon\+ which continues its slumber undisturbed\n\nCongratulations\+ you have escaped the cave and successfully completed this adventure.\n",-1
+*str-altar-room-intro-0;"You come to a room with a glowing altar of white marble.\n\n",-1
+*str-altar-room-intro-1;"On the altar is an inscription that reads 'recite the magic word and you shall be rewarded'\nIt appears the magic word was once inscribed below\+ but several pieces are missing and only the last letter 'a' is visible.\nIf you know the magic word\+ you can say it now.\n\n",-1
+*str-altar-room-intro-2;"Exits are west\+ north\+ and south\n",-1
+*str-altar-room-option-0;"santa",-1
+*str-altar-room-option-1;"go west",-1
+*str-altar-room-option-2;"go north",-1
+*str-altar-room-option-3;"go south",-1
+*str-get-key-intro-0;"The altar opens\+ revealing a key inside. You place the key in your pocket.\n",-1
+*str-shard-room-intro-0;"The path comes to a dead end\n\n",-1
+*str-shard-room-intro-1;"There is a white stone lying on the ground.\n\n",-1
+*str-shard-room-intro-2;"The only exit is back south the way you came.\n",-1
+*str-shard-room-option-0;"go south",-1
+*str-shard-room-option-1;"take stone",-1
+*str-shard-room-option-2;"take white stone",-1
+*str-get-t-stone-intro-0;"You pick up the small white stone. It appears to be a shard of marble with the letter 't' on it.\n",-1
+*str-armory-intro-0;"You are in a room with empty weapon racks along the walls.\n\n",-1
+*str-armory-intro-1;"There is a single sword remaining in one of the racks.\n\n",-1
+*str-armory-intro-2;"There is a white stone lying in the corner of the room.\n\n",-1
+*str-armory-intro-3;"The only exit is north.\n",-1
+*str-armory-option-0;"take sword",-1
+*str-armory-option-1;"take stone",-1
+*str-armory-option-2;"take white stone",-1
+*str-armory-option-3;"go north",-1
+*str-get-sword-intro-0;"You pick up the sword. You feel safer already.\n",-1
+*str-get-a-stone-intro-0;"You pick up the small white stone. It appears to be a shard of marble with the letter 'a' on it.\n",-1
+*str-goblin-room-intro-0;"You are in a section of the cave full of twists and turns.\n\n",-1
+*str-goblin-room-intro-1;"You notice a goblin around a corner just ahead of you. It is carrying a wicked-looking spear.\nIt doesn't appear to have noticed you yet\+ but you'll have to [attack] it to continue south.\nOr you can go back north.\n",-1
+*str-goblin-room-intro-2;"Possible exits are north and south\n",-1
+*str-goblin-room-option-0;"go north",-1
+*str-goblin-room-option-1;"go south",-1
+*str-goblin-room-option-2;"attack",-1
+*str-goblin-room-option-3;"attack",-1
+*str-goblin-lose-intro-0;"You get the jump on the goblin\+ but your fists are simply no match for its spear.\nDespite your valiant efforts\+ the goblin is victorious and your adventure is over.\n",-1
+*str-goblin-win-intro-0;"You get the jump on the goblin\+ and land a few sure strikes with your sword.\nIn no time the goblin falls to the ground.\nAs it collapses\+ a small marbe shard with the letter 's' on it falls out of its pocket.\n",-1
+*str-crevice-room-intro-0;"The path reaches an abrupt dead end\+ except for a small crevice in the western wall.\nYou can return north the way you came\+ or try to squeeze through the crevice to the west and hope you don't get stuck.\n",-1
+*str-crevice-room-option-0;"go north",-1
+*str-crevice-room-option-1;"go west",-1
+*str-crevice-intro-0;"You try to pass through the crevice\+ but the opening is just too small.\nHowever\+ you are able to make out a small marble shard with the letter 'n' just out of your reach.\n",-1
+
+*str-unknown-option;"That's not a valid option\n",-1
+
+*stage-end;99
+
+#Misc pointers
+*returnpointer,*boolpointer
+
+#Variables
+*var-have-ring
+*var-have-key
+*var-have-t
+*var-have-sword
+*var-have-a
+*var-goblin-dead
+
+
+*inputbase
