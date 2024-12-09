@@ -4,7 +4,7 @@ Solutions (node.js) for [Advent of Code](https://adventofcode.com/)
 
 ## Stars
 
-* 2024 ![2024 Stars](https://img.shields.io/badge/stars%20⭐-14-yellow)
+* 2024 ![2024 Stars](https://img.shields.io/badge/stars%20⭐-16-yellow)
 * 2023 ![2023 Stars](https://img.shields.io/badge/stars%20⭐-46-yellow)
 * 2022 ![2022 Stars](https://img.shields.io/badge/stars%20⭐-50-yellow)
 * 2021 ![2021 Stars](https://img.shields.io/badge/stars%20⭐-50-yellow)
