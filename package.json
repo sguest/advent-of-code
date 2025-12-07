@@ -4,8 +4,9 @@
   "description": "",
   "private": true,
   "main": "init.js",
+  "type": "module",  "__type_comment": "Remove this if not running typescript",
   "scripts": {
-    "init": "node init",
+    "init": "node init.ts",
     "test": "node test/main.js",
     "set-auth": "node lib/setAuth.js"
   },
@@ -25,5 +26,8 @@
     "chalk": "^2.4.1",
     "js-combinatorics": "^0.5.4",
     "md5": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1"
   }
 }
